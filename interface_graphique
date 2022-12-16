@@ -1,1 +1,50 @@
 
+#Poker first try 
+
+import pygame 
+from pygame import *
+import os #avoir le bon chemin pour importer les images 
+
+
+WIDTH, HEIGHT = 1000, 600
+WIN = pygame.display.set_mode((WIDTH, HEIGHT)) #valeurs en capitale = variables constantes
+
+pygame.display.set_caption("Poker Game") #nom de la fenêtre 
+
+GREY = (160, 160, 160)
+DARK_GREEN = (0, 102, 0)
+
+FPS = 60 #pour contrôler la vitesse de réinitialisation de l'image : ici 60 par seconde
+
+#importer les images dont on a besoin 
+
+AS_DE_PIQUE = pygame.image.load(os.path.join('PygameForBeginners', 'As_de_pique.png'))
+
+
+
+def draw_window():
+    WIN.fill((GREY))
+    WIN.blit()          #afficher des surfaces : ex des images 
+    pygame.display.update() # les modifications ne sont pas mises à jour sans cette commande manuelle 
+
+def draw_tapis():
+    pygame.draw.ellipse(WIN, DARK_GREEN, (100, 370, 150, 100))
+    pygame.display.update()
+
+def main():
+    clock = pygame.time.Clock()
+    run = True
+    while run:
+        clock.tick(FPS) #contrôler la vitesse de la boucle pour s'assurer qu'elle ne tourne que 60 fois par seconde (les ordinateurs ont différentes vitesses d'exécution)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT : 
+                run = False
+        draw_window()
+        draw_tapis()            #problème d'affichage
+    pygame.quit()               #quitter le jeu 
+
+
+
+
+if __name__ == "__main__":
+    main()
