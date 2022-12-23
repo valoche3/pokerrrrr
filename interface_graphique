@@ -1,50 +1,76 @@
-
-#Poker first try 
+#Poker second try 
 
 import pygame 
 from pygame import *
-import os #avoir le bon chemin pour importer les images 
+import sys 
+from Button_class1 import Button                        #fichiers sur mon ordi
 
+#avoir le bon chemin pour importer les images 
+import os 
 
-WIDTH, HEIGHT = 1000, 600
-WIN = pygame.display.set_mode((WIDTH, HEIGHT)) #valeurs en capitale = variables constantes
+pygame.init()           # impératif pour pouvoir modifier la police des textes
 
-pygame.display.set_caption("Poker Game") #nom de la fenêtre 
+WIDTH, HEIGHT = 1000, 600                               #taille de la fenêtre de jeu
+WIN = pygame.display.set_mode((WIDTH, HEIGHT))          #création de la fenêtre
+
+pygame.display.set_caption("Texas Hold'em")             #titre de la fenêtre 
 
 GREY = (160, 160, 160)
 DARK_GREEN = (0, 102, 0)
+BLACK = (0, 0, 0)
+YELLOW = (255, 216, 50)
+AMBER = (254, 124, 0)
+LIGHT_RED = (255, 54, 0)
+WHITE = (255, 255, 255)
+BLUE = (1, 27, 86)
 
-FPS = 60 #pour contrôler la vitesse de réinitialisation de l'image : ici 60 par seconde
 
-#importer les images dont on a besoin 
-
-AS_DE_PIQUE = pygame.image.load(os.path.join('PygameForBeginners', 'As_de_pique.png'))
+#BORDER = pygame.Rect(WIDTH/2 - 5, 0, 10, HEIGHT)
 
 
+CARD = pygame.image.load(os.path.join( 'Cards', 'clubs_10.png'))
+CARD = pygame.transform.scale(CARD, (60,100)) 
 
-def draw_window():
+TAPIS =pygame.image.load(os.path.join( 'Tapis', 'Tapis_TexasHold\'em.jpeg'))            #importer une image 
+TAPIS = pygame.transform.scale(TAPIS, (750,450))
+WIDTH_TAPIS = TAPIS.get_width()
+HEIGHT_TAPIS = TAPIS.get_height()
+
+bet = Button("Bet", bg="purple")
+fold = Button("Fold", bg="green")
+Raise = Button("Raise", bg="blue")
+
+
+def draw_window(card, event):
     WIN.fill((GREY))
-    WIN.blit()          #afficher des surfaces : ex des images 
-    pygame.display.update() # les modifications ne sont pas mises à jour sans cette commande manuelle 
+    #pygame.draw.rect(WIN, BLACK, BORDER)
+    WIN.blit(CARD, (card.x, card.y))  
+    WIN.blit(TAPIS, (WIDTH/2 - WIDTH_TAPIS/2, HEIGHT/2 - HEIGHT_TAPIS/2))
+    WIN.blit(bet.surface, (0, 0)) 
+    WIN.blit(fold.surface, (0, 50)) 
+    WIN.blit(Raise.surface, (0, 100)) 
+    if event.type == pygame.MOUSEBUTTONDOWN:
+        if pygame.mouse.get_pressed()[0]:
+            bet.change_text("You cliked me", bg="orange") # à adapter au jeu
+          
+            fold.change_text("You cliked me", bg="orange") # trouver un moyen de séparer la commande sur les trois boutons 
+           
+            Raise.change_text("You cliked me", bg="orange")
+    pygame.display.update() 
+     
 
-def draw_tapis():
-    pygame.draw.ellipse(WIN, DARK_GREEN, (100, 370, 150, 100))
-    pygame.display.update()
+
 
 def main():
+    card = pygame.Rect(100, 300, 60, 100)
     clock = pygame.time.Clock()
     run = True
     while run:
-        clock.tick(FPS) #contrôler la vitesse de la boucle pour s'assurer qu'elle ne tourne que 60 fois par seconde (les ordinateurs ont différentes vitesses d'exécution)
         for event in pygame.event.get():
             if event.type == pygame.QUIT : 
                 run = False
-        draw_window()
-        draw_tapis()            #problème d'affichage
-    pygame.quit()               #quitter le jeu 
+        draw_window(card, event)
+        pygame.display.update() 
+        clock.tick(60)
 
-
-
-
-if __name__ == "__main__":
-    main()
+    pygame.quit() 
