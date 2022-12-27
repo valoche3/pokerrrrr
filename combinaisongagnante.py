@@ -11,7 +11,7 @@ for i in range (0,5):
     m=random.randint(0,len(paquet3))
     cartes.append(paquet3[paquet3.pop(m)])
 mains={}
-#création du dictionnaire des cartes
+#création du dictionnaire des c
 for i in range (0,nombre_de_joueurs):
     mains['j'+str(i)]=0
 
