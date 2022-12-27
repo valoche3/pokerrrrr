@@ -1,4 +1,5 @@
 import random
+
 Piques= ["Pi_As","Pi_R","Pi_D","Pi_V","Pi_10","Pi_9","Pi_8","Pi_7","Pi_6","Pi_5","Pi_4","Pi_3","Pi_2"] #cartes triées par ordre
 Trèfles=["Tr_As","Tr_R","Tr_D","Tr_V","Tr_10","Tr_9","Tr_8","Tr_7","Tr_6","Tr_5","Tr_4","Tr_3","Tr_2"]
 Coeurs=["Co_As","Co_R","Co_D","Co_V","Co_10","Co_9","Co_8","Co_7","Co_6","Co_5","Co_4","Co_3","Co_2"]
@@ -7,11 +8,12 @@ paquet= Piques + Trèfles + Coeurs + Carreaux
 nombre_de_joueurs= int(input("Combien de joueurs?"))
 cartes=[]
 paquet3=list(paquet)
+
 for i in range (0,5):
     m=random.randint(0,len(paquet3))
     cartes.append(paquet3[paquet3.pop(m)])
 mains={}
-#création du dictionnaire des c
+#création du dictionnaire des cartes
 for i in range (0,nombre_de_joueurs):
     mains['j'+str(i)]=0
 
@@ -120,7 +122,7 @@ if compteur_pique >= 5 or compteur_trèfle>= 5 or compteur_carreau>=5 or compteu
         test_gain[j][0]= 10
         test_gain[j][1]=0
         break
-     
+
     #faire le test pour quinte flush
 
 
@@ -148,7 +150,7 @@ if compteur_pique >= 5 or compteur_trèfle>= 5 or compteur_carreau>=5 or compteu
     #on a une couleur
     test_gain[j][0]=6
     for i in tri_chiffre:
-        
+
 
 #test suite quinte
 
@@ -168,5 +170,3 @@ if nb_2>=2:
 if 2 in val :
     #on a une paire
     test_gain[j][0]=2
-
-
