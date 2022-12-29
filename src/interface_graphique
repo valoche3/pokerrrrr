@@ -1,64 +1,64 @@
-#Poker second try 
 
 import pygame 
 from pygame import *
 import sys 
-from Button_class1 import Button                        #fichiers sur mon ordi
-
-#avoir le bon chemin pour importer les images 
 import os 
+from Colors_class import Colors 
+from deck_and_cards_class import Deck, Card
 
-pygame.init()           # impératif pour pouvoir modifier la police des textes
+pygame.init()
 
-WIDTH, HEIGHT = 1000, 600                               #taille de la fenêtre de jeu
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))          #création de la fenêtre
+WIDTH, HEIGHT = 1000, 600
+WIN = pygame.display.set_mode((WIDTH, HEIGHT)) 
 
-pygame.display.set_caption("Texas Hold'em")             #titre de la fenêtre 
+pygame.display.set_caption("Texas Hold'em")
 
-GREY = (160, 160, 160)
-DARK_GREEN = (0, 102, 0)
-BLACK = (0, 0, 0)
-YELLOW = (255, 216, 50)
-AMBER = (254, 124, 0)
-LIGHT_RED = (255, 54, 0)
-WHITE = (255, 255, 255)
-BLUE = (1, 27, 86)
+COLOR = Colors()
+DECK = Deck()
+BACK = pygame.image.load(os.path.join('Cards', 'red.png'))
+
 
 
 #BORDER = pygame.Rect(WIDTH/2 - 5, 0, 10, HEIGHT)
 
 
-CARD = pygame.image.load(os.path.join( 'Cards', 'clubs_10.png'))
-CARD = pygame.transform.scale(CARD, (60,100)) 
+# CARD = pygame.image.load(os.path.join( 'Cards', 'clubs_10.png'))
+CARD_TRANSFORM = pygame.transform.scale(Card(f'{3}.png', 3, 'clubs' ).image, (60,100)) 
 
-TAPIS =pygame.image.load(os.path.join( 'Tapis', 'Tapis_TexasHold\'em.jpeg'))            #importer une image 
+TAPIS =pygame.image.load(os.path.join( 'Tapis', 'Tapis_TexasHold\'em.jpeg'))
 TAPIS = pygame.transform.scale(TAPIS, (750,450))
 WIDTH_TAPIS = TAPIS.get_width()
 HEIGHT_TAPIS = TAPIS.get_height()
 
-bet = Button("Bet", bg="purple")
-fold = Button("Fold", bg="green")
-Raise = Button("Raise", bg="blue")
+
+smallfont = pygame.font.SysFont('Corbel',35)
+text_bet = smallfont.render('Bet' , True , COLOR.white)
+text_fold = smallfont.render('Fold' , True , COLOR.white)
+text_Raise = smallfont.render('Raise' , True , COLOR.white)
+
+
 
 
 def draw_window(card, event):
-    WIN.fill((GREY))
-    #pygame.draw.rect(WIN, BLACK, BORDER)
-    WIN.blit(CARD, (card.x, card.y))  
+    WIN.fill(COLOR.black)
+    #pygame.draw.rect(WIN, BLACK, BORDER) 
     WIN.blit(TAPIS, (WIDTH/2 - WIDTH_TAPIS/2, HEIGHT/2 - HEIGHT_TAPIS/2))
-    WIN.blit(bet.surface, (0, 0)) 
-    WIN.blit(fold.surface, (0, 50)) 
-    WIN.blit(Raise.surface, (0, 100)) 
+    WIN.blit(Card(f'{3}.png', 3, 'clubs' ).image, (card.x, card.y)) 
+    WIN.blit(BACK, (100, 100)) 
     if event.type == pygame.MOUSEBUTTONDOWN:
-        if pygame.mouse.get_pressed()[0]:
-            bet.change_text("You cliked me", bg="orange") # à adapter au jeu
-          
-            fold.change_text("You cliked me", bg="orange") # trouver un moyen de séparer la commande sur les trois boutons 
-           
-            Raise.change_text("You cliked me", bg="orange")
+        if 50 <= mouse[0] <= 50+140 and HEIGHT-50 <= mouse[1] <= HEIGHT-50 + 40:
+            pygame.quit()
+    mouse = pygame.mouse.get_pos()
+    if 50 <= mouse[0] <= 50 +140 and HEIGHT - 50 <= mouse[1] <= HEIGHT - 50 + 40:
+        pygame.draw.rect(WIN,COLOR.light_gray1,[50,HEIGHT-50,140,40])
+    else:
+        pygame.draw.rect(WIN,COLOR.dark_green3,[50,HEIGHT-50,140,40])
+        
+    WIN.blit(text_bet , ( 50 ,HEIGHT - 50 ))
+    WIN.blit(text_fold , ( 450 ,HEIGHT - 50 ))
+    WIN.blit(text_Raise , ( 700 ,HEIGHT - 50 ))
     pygame.display.update() 
      
-
 
 
 def main():
@@ -69,9 +69,14 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT : 
                 run = False
+				
         draw_window(card, event)
         pygame.display.update() 
         clock.tick(60)
 
     pygame.quit() 
-    
+
+
+
+if __name__ == "__main__":
+    main()
