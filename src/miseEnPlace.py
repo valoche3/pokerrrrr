@@ -1,10 +1,10 @@
 from random import randint
 
 
-Piques = ["Pi_As","Pi_R","Pi_D","Pi_V","Pi_10","Pi_9","Pi_8","Pi_7","Pi_6","Pi_5","Pi_4","Pi_3","Pi_2"] #cartes triées par ordre
-Trèfles = ["Tr_As","Tr_R","Tr_D","Tr_V","Tr_10","Tr_9","Tr_8","Tr_7","Tr_6","Tr_5","Tr_4","Tr_3","Tr_2"]
-Coeurs = ["Co_As","Co_R","Co_D","Co_V","Co_10","Co_9","Co_8","Co_7","Co_6","Co_5","Co_4","Co_3","Co_2"]
-Carreaux = ["Ca_As","Ca_R","Ca_D","Ca_V","Ca_10","Ca_9","Ca_8","Ca_7","Ca_6","Ca_5","Ca_4","Ca_3","Ca_2"]
+Piques = ["Pique_As","Pique_R","Pique_D","Pique_V","Pique_10","Pique_9","Pique_8","Pique_7","Pique_6","Pique_5","Pique_4","Pique_3","Pique_2"] #cartes triées par ordre
+Trèfles = ["Trèfle_As","Trèfle_R","Trèfle_D","Trèfle_V","Trèfle_10","Trèfle_9","Trèfle_8","Trèfle_7","Trèfle_6","Trèfle_5","Trèfle_4","Trèfle_3","Trèfle_2"]
+Coeurs = ["Coeur_As","Coeur_R","Coeur_D","Coeur_V","Coeur_10","Coeur_9","Coeur_8","Coeur_7","Coeur_6","Coeur_5","Coeur_4","Coeur_3","Coeur_2"]
+Carreaux = ["Carreau_As","Carreau_R","Carreau_D","Carreau_V","Carreau_10","Carreau_9","Carreau_8","Carreau_7","Carreau_6","Carreau_5","Carreau_4","Carreau_3","Carreau_2"]
 
 
 def recupere_le_nombre_de_joueur():
@@ -28,20 +28,33 @@ def initalisation_de_dictionnaire(nombre_de_joueurs, valeur_par_défaut):
     return dictionnaire
 
 
-def distribution_des_cartes(paquet_de_jeu, nombre_de_joueurs):
+def distribution_des_cartes_joueurs(nombre_de_joueurs):
+    paquet_de_jeu = Piques + Trèfles + Coeurs + Carreaux
     mains = initalisation_de_dictionnaire(nombre_de_joueurs, 0)
 
     for i in mains :
         mains[i] = [0, 0]
-        mains[i][0] = paquet_de_jeu.pop(randint(0, len(paquet_de_jeu)))
-        mains[i][1]= paquet_de_jeu.pop(randint(0, len(paquet_de_jeu)))
-    return mains
+        mains[i][0] = paquet_de_jeu.pop(randint(0, len(paquet_de_jeu) - 1))
+        mains[i][1]= paquet_de_jeu.pop(randint(0, len(paquet_de_jeu) - 1))
+
+    return mains, paquet_de_jeu
+
+
+def distribution_cartes_du_milieu(paquet_de_jeu):
+    cartes_du_milieu = [0, 0, 0, 0, 0]
+
+    for i in range(len(cartes_du_milieu)):
+        if i == 0 or i >= 3:
+            paquet_de_jeu.pop(randint(0, len(paquet_de_jeu) - 1))
+        cartes_du_milieu[i] = paquet_de_jeu.pop(randint(0, len(paquet_de_jeu) - 1))
+
+    return cartes_du_milieu, paquet_de_jeu
 
 
 class Partie:
     def __init__ (self):
         self.nombre_de_joueurs = recupere_le_nombre_de_joueur()
-        self.paquet_de_jeu = Piques + Trèfles + Coeurs + Carreaux
-        self.mains = distribution_des_cartes(self.paquet_de_jeu, self.nombre_de_joueurs)
+        self.mains, self.paquet_de_jeu = distribution_des_cartes_joueurs(self.nombre_de_joueurs)
         self.mises = self.mises = initalisation_de_dictionnaire(self.nombre_de_joueurs, 0)
         self.argent = self.argent = initalisation_de_dictionnaire(self.nombre_de_joueurs, 500)
+        self.cartes_du_milieu, self.paquet_de_jeu = distribution_cartes_du_milieu(self.paquet_de_jeu)
