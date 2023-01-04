@@ -1,4 +1,4 @@
-from src.miseEnPlace import initalisation_de_dictionnaire
+from src.miseEnPlace import initialisation_de_dictionnaire
 
 Piques = ["Pique_As", "Pique_R", "Pique_D", "Pique_V", "Pique_10", "Pique_9", "Pique_8", "Pique_7", "Pique_6", "Pique_5", "Pique_4", "Pique_3", "Pique_2"]
 Trèfles = ["Trèfle_As", "Trèfle_R", "Trèfle_D", "Trèfle_V", "Trèfle_10", "Trèfle_9", "Trèfle_8", "Trèfle_7", "Trèfle_6", "Trèfle_5", "Trèfle_4", "Trèfle_3", "Trèfle_2"]
@@ -76,9 +76,10 @@ def cherche_valeur_liste(liste, valeur):
 
 def extracteur_de_valeur(carte, mode=None):
     ref = ["As", "R", "D", "V", "10", "9", "8", "7", "6", "5", "4", "3", "2"]
+    #temp = carte.split("_")
 
     if mode is not None:
-        return ref[carte]
+        return ref[carte], ((len(ref) - 1) - carte)
 
     temp = carte.split("_")
 
@@ -88,19 +89,22 @@ def extracteur_de_valeur(carte, mode=None):
 
 def vérification_quinte_flush_royal(main_du_joueur, cartes_du_milieu):
     tri_chiffres_couleurs = trichiffre_couleur(main_du_joueur, cartes_du_milieu)
-    _, carte_haute, somme = vérification_carte_la_plus_haute(main_du_joueur)
+    _, _, somme = vérification_carte_la_plus_haute(main_du_joueur)
 
     if Piques[0:4] in tri_chiffres_couleurs or Trèfles[0:4] in tri_chiffres_couleurs or Carreaux[0:4] in tri_chiffres_couleurs or Coeurs[0:4] in tri_chiffres_couleurs:
-        return 10, carte_haute, somme
+        return 10, 13, somme
     else:
         return 0, 0, 0
 
 
-def quinte_associée(carte):
+def quinte_associée(carte,mode=True):
     ref = ["As", "R", "D", "V", "10", "9", "8", "7", "6", "5", "4", "3", "2"]
-    index = ref.index(carte)
-
-    return ref[index:(index + 5)]
+    if mode == True:
+        index = ref.index(carte)
+        return ref[index:(index + 5)]
+    else:
+        index=carte
+        return ref[index:(index + 5)]
 
 
 def vérification_quinte_flush(main_du_joueur, cartes_du_milieu):
@@ -109,7 +113,7 @@ def vérification_quinte_flush(main_du_joueur, cartes_du_milieu):
     trèfle = []
     carreau = []
     tri_chiffres_couleurs = trichiffre_couleur(main_du_joueur, cartes_du_milieu)
-    _, carte_haute, somme = vérification_carte_la_plus_haute(main_du_joueur)
+    _, _, somme = vérification_carte_la_plus_haute(main_du_joueur)
 
     for carte in tri_chiffres_couleurs:
         if "Pique" in carte:
@@ -126,7 +130,7 @@ def vérification_quinte_flush(main_du_joueur, cartes_du_milieu):
                 liste[k] = extracteur_de_valeur(liste[k])[0]
                 liste[k] = extracteur_de_valeur(liste[k], True)
                 if quinte_associée(carte) in liste:
-                    return 9, carte_haute, somme
+                    return 9, quinte_associée(carte)[0], somme
             return 0, 0, 0
         else:
             return 0, 0, 0
@@ -134,9 +138,10 @@ def vérification_quinte_flush(main_du_joueur, cartes_du_milieu):
 
 def vérification_carré(main_du_joueur, cartes_du_milieu):
     compteur = compteur_de_valeurs(main_du_joueur, cartes_du_milieu)
-    _, carte_haute, somme = vérification_carte_la_plus_haute(main_du_joueur)
+    _, _, somme = vérification_carte_la_plus_haute(main_du_joueur)
 
     if 4 in compteur:
+        carte_haute = int(extracteur_de_valeur(compteur.index(4), True)[1])+2
         return 8, carte_haute, somme
     else:
         return 0, 0, 0
@@ -145,9 +150,10 @@ def vérification_carré(main_du_joueur, cartes_du_milieu):
 def vérification_full(main_du_joueur, cartes_du_milieu):
     compteur = compteur_de_valeurs(main_du_joueur, cartes_du_milieu)
     nb_3 = cherche_valeur_liste(compteur, 3)
-    _, carte_haute, somme = vérification_carte_la_plus_haute(main_du_joueur)
+    _, _, somme = vérification_carte_la_plus_haute(main_du_joueur)
 
     if (2 in compteur and 5 in compteur) or (2 in compteur and 3 in compteur) or (2 in compteur and 4 in compteur) or (3 in compteur and 4 in compteur) or nb_3 == 2:
+        carte_haute = int(extracteur_de_valeur(compteur.index(3), True)[1])+2
         return 7, carte_haute, somme
     else:
         return 0, 0, 0
@@ -155,8 +161,22 @@ def vérification_full(main_du_joueur, cartes_du_milieu):
 
 def vérification_couleur(main_du_joueur, cartes_du_milieu):
     pique, trèfle, coeur, carreau = compteur_par_couleur(main_du_joueur, cartes_du_milieu)
-    _, carte_haute, somme = vérification_carte_la_plus_haute(main_du_joueur)
-
+    _, _, somme = vérification_carte_la_plus_haute(main_du_joueur)
+    tri_chiffres= trichiffres(main_du_joueur, cartes_du_milieu)
+    for k in tri_chiffres:
+        val, couleur = extracteur_de_valeur(k)
+        if couleur == 'Pique' and pique == 5:
+            carte_haute = val
+            break
+        if couleur == 'Trèfle' and trèfle == 5:
+            carte_haute = val
+            break
+        if couleur == 'Coeur' and coeur == 5:
+            carte_haute = val
+            break
+        if couleur == 'Carreau' and carreau == 5:
+            carte_haute = val
+            break
     if pique == 5 or trèfle == 5 or coeur == 5 or carreau == 5:
         return 6, carte_haute, somme
     else:
@@ -165,22 +185,23 @@ def vérification_couleur(main_du_joueur, cartes_du_milieu):
 
 def vérification_suite(main_du_joueur, cartes_du_milieu):
     tri_chiffres = trichiffres(main_du_joueur, cartes_du_milieu)
-    _, carte_haute, somme = vérification_carte_la_plus_haute(main_du_joueur)
+    _, _, somme = vérification_carte_la_plus_haute(main_du_joueur)
 
     for k in range(0, len(tri_chiffres)):
         tri_chiffres[k] = extracteur_de_valeur(tri_chiffres[k])[0]
-        tri_chiffres[k] = extracteur_de_valeur(tri_chiffres[k], True)
+        #tri_chiffres[k] = extracteur_de_valeur(tri_chiffres[k], True)
     for val in tri_chiffres[0:3]:
-        if quinte_associée(val) in tri_chiffres:
-            return 5, carte_haute, somme
+        if quinte_associée(val, mode=False) in tri_chiffres:
+            return 5, quinte_associée(val, mode = False)[0], somme
     return 0, 0, 0
 
 
 def vérification_brelan(main_du_joueur, cartes_du_milieu):
     compteur = compteur_de_valeurs(main_du_joueur, cartes_du_milieu)
-    _, carte_haute, somme = vérification_carte_la_plus_haute(main_du_joueur)
+    _, _, somme = vérification_carte_la_plus_haute(main_du_joueur)
 
     if 3 in compteur:
+        carte_haute = int(extracteur_de_valeur(compteur.index(3), True)[1])+2
         return 4, carte_haute, somme
     else:
         return 0, 0, 0
@@ -189,9 +210,10 @@ def vérification_brelan(main_du_joueur, cartes_du_milieu):
 def vérification_double_paire(main_du_joueur, cartes_du_milieu):
     compteur = compteur_de_valeurs(main_du_joueur, cartes_du_milieu)
     nb_2 = cherche_valeur_liste(compteur, 2)
-    _, carte_haute, somme = vérification_carte_la_plus_haute(main_du_joueur)
+    _, _, somme = vérification_carte_la_plus_haute(main_du_joueur)
 
     if nb_2 >= 2:
+        carte_haute = int(extracteur_de_valeur(compteur.index(2), True)[1])+2
         return 3, carte_haute, somme
     else:
         return 0, 0, 0
@@ -202,7 +224,7 @@ def vérification_paire(main_du_joueur, cartes_du_milieu):
     _, _, somme = vérification_carte_la_plus_haute(main_du_joueur)
 
     if 2 in compteur:
-        carte_haute = int(extracteur_de_valeur(compteur.index(2), True))
+        carte_haute = int(extracteur_de_valeur(compteur.index(2), True)[1]) +2
         return 2, carte_haute, somme
     else:
         return 0, 0, 0
@@ -217,7 +239,7 @@ def vérification_carte_la_plus_haute(main_du_joueur, _=None):
         if hauteur > hauteur_max:
             hauteur_max = hauteur
         somme += hauteur
-    return 1, hauteur_max, somme
+    return 1, hauteur_max + 2, somme
 
 
 def attributeur_de_valeur_par_joueur(mains, cartes_du_milieu):
@@ -233,7 +255,7 @@ def attributeur_de_valeur_par_joueur(mains, cartes_du_milieu):
         vérification_paire,
         vérification_carte_la_plus_haute]
 
-    données_des_joueurs = initalisation_de_dictionnaire(len(mains), 0)
+    données_des_joueurs = initialisation_de_dictionnaire(len(mains), 0)
 
     for joueur in mains:
         for fonction_de_vérification in vérificateur:
@@ -247,7 +269,7 @@ def attributeur_de_valeur_par_joueur(mains, cartes_du_milieu):
 def détermination_du_vainqueur(mains, cartes_du_milieu):
     données_des_joueurs = attributeur_de_valeur_par_joueur(mains, cartes_du_milieu)
     print(données_des_joueurs)
-
+    joueurs_gagnants = []
     joueur_gagnant = ""
     id_combinaison_max = 0
     hauteur_max = 0
@@ -266,9 +288,15 @@ def détermination_du_vainqueur(mains, cartes_du_milieu):
                 hauteur_max = joueur[1]
                 joueur_gagnant = id_joueur
                 départageur_max = joueur[2]
+                
             else:
-                if joueur[1] == hauteur_max and joueur[2] > départageur_max:
+                if (joueur[0] > id_combinaison_max or joueur[0] == id_combinaison_max) and joueur[1] == hauteur_max and joueur[2] > départageur_max:
                     départageur_max = joueur[2]
                     joueur_gagnant = id_joueur
+    for id_joueur in données_des_joueurs:
+        joueur = données_des_joueurs[id_joueur]
+        if joueur[0] == id_combinaison_max and joueur[1] == hauteur_max and joueur[2] == départageur_max:
+                    if joueur not in joueurs_gagnants:
+                        joueurs_gagnants.append(id_joueur)
 
-    print(f"le joueur gagnant est {joueur_gagnant}")
+    print(f"le joueur gagnant est {joueur_gagnant}", joueurs_gagnants)
