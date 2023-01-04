@@ -6,6 +6,7 @@ import os
 from Colors_class import Colors 
 from deck_and_cards_class import Deck, Card
 from Button_better_class_ import Button
+from saisie_de_texte import InputBox
 
 pygame.init()
 
@@ -88,13 +89,16 @@ def draw_window(card, event):
         contour_boutons()
     
     afficher_texte_bouttons()
-    pygame.display.update() 
+    pygame.display.update()
+    
      
-
 
 def main():
     card = pygame.Rect(100, 300, 60, 100)
     clock = pygame.time.Clock()
+    input_box1 = InputBox(100, 100, 140, 32)
+    input_box2 = InputBox(100, 300, 140, 32)
+    input_boxes = [input_box1, input_box2]
     run = True
     while run:
         # pygame.draw.rect(surface, DARK_GREEN, (greenSquareX, greenSquareY, 20, 20))
@@ -103,14 +107,24 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT : 
                 run = False
-				
+            for box in input_boxes:
+                box.handle_event(event)
+
+        for box in input_boxes:
+            box.update()
+
         draw_window(card, event)
-        pygame.display.update() 
+
+        for box in input_boxes:
+            box.draw(WIN)
+
+        pygame.display.flip()
+        pygame.display.update()
         clock.tick(60)
 
-    pygame.quit() 
 
 
 
 if __name__ == "__main__":
     main()
+    pygame.quit()
