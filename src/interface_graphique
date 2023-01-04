@@ -5,6 +5,7 @@ import sys
 import os 
 from Colors_class import Colors 
 from deck_and_cards_class import Deck, Card
+from Button_better_class_ import Button
 
 pygame.init()
 
@@ -16,6 +17,11 @@ pygame.display.set_caption("Texas Hold'em")
 COLOR = Colors()
 DECK = Deck()
 BACK = pygame.image.load(os.path.join('Cards', 'red.png'))
+JETON1 = pygame.image.load(os.path.join('Jetons', 'bet-img1.png'))
+JETON2 = pygame.image.load(os.path.join('Jetons', 'bet-img.png'))
+
+
+# BUTTON = Button(pygame.image.load(os.path.join('Cards', 'red.png')).convert(), COLOR.white, 0, 0, 10, 40, 'BLABLA', )
 
 
 
@@ -23,40 +29,65 @@ BACK = pygame.image.load(os.path.join('Cards', 'red.png'))
 
 
 # CARD = pygame.image.load(os.path.join( 'Cards', 'clubs_10.png'))
-CARD_TRANSFORM = pygame.transform.scale(Card(f'{3}.png', 3, 'clubs' ).image, (60,100)) 
+CARD_TRANSFORM = pygame.transform.scale(Card(f'{3}.png', 3, 'clubs' ).image, (60,100))
 
 TAPIS =pygame.image.load(os.path.join( 'Tapis', 'Tapis_TexasHold\'em.jpeg'))
 TAPIS = pygame.transform.scale(TAPIS, (750,450))
 WIDTH_TAPIS = TAPIS.get_width()
 HEIGHT_TAPIS = TAPIS.get_height()
 
-
 smallfont = pygame.font.SysFont('Corbel',35)
 text_bet = smallfont.render('Bet' , True , COLOR.white)
 text_fold = smallfont.render('Fold' , True , COLOR.white)
 text_Raise = smallfont.render('Raise' , True , COLOR.white)
 
+def afficher_texte_bouttons():
+    WIN.blit(text_bet, (50, HEIGHT-50))
+    WIN.blit(text_fold, (450, HEIGHT-50))
+    WIN.blit(text_Raise, (700, HEIGHT-50))
 
+
+def contour_boutons():
+    pygame.draw.rect(WIN,COLOR.dark_green3,[50,HEIGHT-50,140,40])
+    pygame.draw.rect(WIN, COLOR.dark_green3, [450, HEIGHT-50, 140, 40])
+    pygame.draw.rect(WIN, COLOR.dark_green3, [700, HEIGHT-50, 140, 40])
 
 
 def draw_window(card, event):
     WIN.fill(COLOR.black)
     #pygame.draw.rect(WIN, BLACK, BORDER) 
     WIN.blit(TAPIS, (WIDTH/2 - WIDTH_TAPIS/2, HEIGHT/2 - HEIGHT_TAPIS/2))
-    WIN.blit(Card(f'{3}.png', 3, 'clubs' ).image, (card.x, card.y)) 
-    WIN.blit(BACK, (100, 100)) 
+    WIN.blit(Card(f'{3}.png', 3, 'clubs' ).image, (card.x, card.y))
+    WIN.blit(Card(f'{14}.png', 14, 'diamonds' ).image, (card.x + 50, card.y))  
+    # WIN.blit(BACK, (card.x + 50, card.y + 50)) 
+
     if event.type == pygame.MOUSEBUTTONDOWN:
-        if 50 <= mouse[0] <= 50+140 and HEIGHT-50 <= mouse[1] <= HEIGHT-50 + 40:
-            pygame.quit()
-    mouse = pygame.mouse.get_pos()
-    if 50 <= mouse[0] <= 50 +140 and HEIGHT - 50 <= mouse[1] <= HEIGHT - 50 + 40:
-        pygame.draw.rect(WIN,COLOR.light_gray1,[50,HEIGHT-50,140,40])
-    else:
-        pygame.draw.rect(WIN,COLOR.dark_green3,[50,HEIGHT-50,140,40])
+        if pygame.mouse.get_pressed():
+            if 50 <= pygame.mouse.get_pos()[0] <= 50 +140 and HEIGHT - 50 <= pygame.mouse.get_pos()[1] <= HEIGHT - 50 + 40:
+                WIN.blit(JETON1, (WIDTH_TAPIS//2, HEIGHT_TAPIS//2)) #comment garder le jeton affiché après avoir cliqué sur le boutton ?
+
+        if pygame.mouse.get_pressed():
+            if 700 <= pygame.mouse.get_pos()[0] <= 700 +140 and HEIGHT - 50 <= pygame.mouse.get_pos()[1] <= HEIGHT - 50 + 40:
+                    WIN.blit(JETON2, (WIDTH_TAPIS//2, HEIGHT_TAPIS//2))
         
-    WIN.blit(text_bet , ( 50 ,HEIGHT - 50 ))
-    WIN.blit(text_fold , ( 450 ,HEIGHT - 50 ))
-    WIN.blit(text_Raise , ( 700 ,HEIGHT - 50 ))
+        if pygame.mouse.get_pressed():
+            if 450 <= pygame.mouse.get_pos()[0] <= 450 +140 and HEIGHT - 50 <= pygame.mouse.get_pos()[1] <= HEIGHT - 50 + 40:
+                    WIN.blit(BACK, (card.x, card.y))
+                    WIN.blit(BACK, (card.x + 50, card.y))
+
+    if 50 <= pygame.mouse.get_pos()[0] <= 50 +140 and HEIGHT - 50 <= pygame.mouse.get_pos()[1] <= HEIGHT - 50 + 40:
+        pygame.draw.rect(WIN,COLOR.light_gray1,[50,HEIGHT-50,140,40])
+    
+    elif 450 <= pygame.mouse.get_pos()[0] <= 450 +140 and HEIGHT - 50 <= pygame.mouse.get_pos()[1] <= HEIGHT - 50 + 40:
+        pygame.draw.rect(WIN,COLOR.light_gray1,[450,HEIGHT-50,140,40])
+    
+    elif 700 <= pygame.mouse.get_pos()[0] <= 700 +140 and HEIGHT - 50 <= pygame.mouse.get_pos()[1] <= HEIGHT - 50 + 40:
+        pygame.draw.rect(WIN,COLOR.light_gray1,[700,HEIGHT-50,140,40])
+
+    else:
+        contour_boutons()
+    
+    afficher_texte_bouttons()
     pygame.display.update() 
      
 
@@ -66,6 +97,9 @@ def main():
     clock = pygame.time.Clock()
     run = True
     while run:
+        # pygame.draw.rect(surface, DARK_GREEN, (greenSquareX, greenSquareY, 20, 20))
+        # greenSquareX += 1
+        # greenSquareY += 1
         for event in pygame.event.get():
             if event.type == pygame.QUIT : 
                 run = False
