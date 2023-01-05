@@ -102,14 +102,23 @@ def joueur_present(nombre_de_joueurs):
     return(present)
   
   
-def premier_joueur(nombre_de_joueurs, dealer):
+def premier_joueur(nombre_de_joueurs, dealer, mod = 'flop'):
 
-    if ((nombre_de_joueurs - 1) - (dealer)) < 3:
-        joueur_actuel = 'j' + str((dealer + 3) % nombre_de_joueurs)
-        numero_joueur_actuel = (dealer + 3) % nombre_de_joueurs 
-    else:
-        joueur_actuel = 'j' + str(dealer + 3)
-        numero_joueur_actuel = dealer + 3
+    if mod == 'flop':
+        if ((nombre_de_joueurs - 1) - (dealer)) < 3:
+            joueur_actuel = 'j' + str((dealer + 3) % nombre_de_joueurs)
+            numero_joueur_actuel = (dealer + 3) % nombre_de_joueurs 
+        else:
+            joueur_actuel = 'j' + str(dealer + 3)
+            numero_joueur_actuel = dealer + 3
+    else: 
+        if dealer != 'j' + str(nombre_de_joueurs - 1):
+            joueur_actuel = 'j' + str(dealer + 1)
+            numero_joueur_actuel = dealer + 1
+            
+        else:
+            joueur_actuel = 'j0'
+            numero_joueur_actuel = 0
 
     return(joueur_actuel, numero_joueur_actuel)
     
