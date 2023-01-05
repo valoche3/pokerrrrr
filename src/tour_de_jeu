@@ -211,4 +211,7 @@ def tour_de_jeu(nombre_de_joueurs, mise, argent):
     
         actions_possibles(joueur_actuel, present, mise_minimale)
         mise, mise_verif, mise minimale, present = action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent)
+        joueur_actuel = joueur_actuel(nombre_de_joueurs, dealer)
+        mise_verif = mise_verif(nombre_de_joueurs, present)
         
+   
