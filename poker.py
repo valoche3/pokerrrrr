@@ -1,6 +1,6 @@
 from src.miseEnPlace import Partie
 from src.combinaisongagnante import détermination_du_vainqueur
-
+import src.tour_de_jeu
 
 def main():
     partie = Partie()
