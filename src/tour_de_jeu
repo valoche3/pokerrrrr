@@ -125,6 +125,8 @@ def premier_joueur(nombre_de_joueurs, dealer, mod = 'flop'):
         else:
             joueur_actuel = 'j0'
             numero_joueur_actuel = 0
+    
+    print("C'est à", joueur_actuel, "de jouer")
 
     return(joueur_actuel, numero_joueur_actuel)
     
@@ -135,7 +137,9 @@ def joueur_actuel(nombre_de_joueurs, dealer):
            joueur_actuel == 'j0'
        else:
            joueur_actuel == 'j' + str(numero_joueur_actuel + 1)
-           
+    
+    print("C'est à", joueur_actuel, "de jouer")
+    
     return(joueur_actuel, numero_joueur_actuel)
 
 
@@ -198,4 +202,13 @@ def tour_de_jeu(nombre_de_joueurs, mise, argent):
 
     dealer = détermination_premier_dealer(nombre_de_joueurs)
     petite_blinde, grosse_blinde, numero_petite_blinde, numero_grosse_blinde, mise_minimale = attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, argent)
+    present = joueur_present(nombre_de_joueurs)
+    mise_verif = mise_verif(nombre_de_joueurs
+    joueur_actuel = premier_joueur(nombre_de_joueurs, dealer, mod = 'flop')
+    tour = avancee_tour(mise, present)
     
+    while tour == True:
+    
+        actions_possibles(joueur_actuel, present, mise_minimale)
+        mise, mise_verif, mise minimale, present = action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent)
+        
