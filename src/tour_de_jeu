@@ -135,30 +135,27 @@ def avancee_tour(mise, present):
         tour = False
 
     return(tour)
+ 
+ 
+def action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent):
 
-while tour == True:
+    a = input('Que veux-tu faire ? :')
+    actions_possibles(joueur_actuel, present, mise_minimale)   
+    while a == "s'aligner" or a == 'miser' or a == 'se coucher':
+        a = input('Que veux-tu faire ? :') 
+    if a == "s'aligner":
+        mise[joueur_actuel] += mise_minimale
+        mise_verif[joueur_actuel] = mise_minimale
+        mise_minimale = mise_verif[joueur_actuel] 
+    elif a == "miser":
+        mettre = input('Combien veux-tu miser ?', "jusqu'à", argent[joueur_actuel])
+        mise[joueur_actuel] += mettre
+        mise_verif[joueur_actuel] = mettre
+        mise_minimale = mise_verif[joueur_actuel]
+    else:
+        present.pop(joueur_actuel)
 
-    if joueur_actuel in present: #toutes les actions qu'un joueur peut faire
-        print('Voici les actions que tu peux faire :')
-        if argent[joueur_actuel] >= mise_minimale:
-            print("s'aligner")
-            print("miser jusqu'à", str(argent[joueur_actuel]))
-        print('se coucher')
-
-        a = input('que veux-tu faire ? :', "s'aligner", "miser", "se coucher")
-        while a == "s'aligner" or a == 'miser' or a == 'se coucher':
-            a = input('que veux-tu faire ? :', "s'aligner", "miser", "se coucher") 
-        if a == "s'aligner":
-            mise[joueur_actuel] += mise_minimale
-            mise_verif[joueur_actuel] = mise_minimale
-            mise_minimale = mise_verif[joueur_actuel] 
-        elif a == "miser":
-            mettre = input('combien veux-tu miser ?', "jusqu'à", argent[joueur_actuel])
-            mise[joueur_actuel] += mettre
-            mise_verif[joueur_actuel] = mettre
-            mise_minimale = mise_verif[joueur_actuel]
-        else:
-            present.pop(joueur_actuel)
+    return(mise, mise_verif, mise_minimale, present)
 
     #changement de joueur_actuel
 
