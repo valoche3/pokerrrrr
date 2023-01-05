@@ -90,7 +90,9 @@ def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, arg
             numero_petite_blinde = 1
             numero_grosse_blinde = 0
     
-    return(petite_blinde, grosse_blinde, numero_petite_blinde, numero_grosse_blinde)
+    mise_minimale = petite_blinde
+    
+    return(petite_blinde, grosse_blinde, numero_petite_blinde, numero_grosse_blinde, mise_minimale)
 
 
 def joueur_present(nombre_de_joueurs):
