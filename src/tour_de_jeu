@@ -58,20 +58,25 @@ def joueur_present(nombre_de_joueurs):
     present = {'j'+str(i) for i in range(nombre_de_joueurs)}
 
     return(present)
+    
+def definition_joueur_actuel(nombre_de_joueurs, dealer):
 
-# flop
+    if ((nombre_de_joueurs - 1) - (dealer)) < 3:
+        joueur_actuel = 'j' + str((dealer+3) % nombre_de_joueurs)
+        numero_joueur_actuel = (dealer+3) % nombre_de_joueurs 
+    else:
+        joueur_actuel = 'j' + str(dealer+3)
+        numero_joueur_actuel = dealer+3
 
-if ((nombre_de_joueurs-1) - (dealer)) < 3:
-    joueur_actuel = 'j'+ str((dealer+3)%nombre_de_joueurs)
-    numero_joueur_actuel = (dealer+3)%nombre_de_joueurs 
-else:
-    joueur_actuel = 'j' + str(dealer+3)
-    numero_joueur_actuel = dealer+3
+    return(joueur_actuel, numero_joueur_actuel)
 
-mise_minimale = petite_blinde
-mise_verif={}
-for i in range (0, nombre_de_joueurs):
-    mise['j'+str(i)]=0
+def mise_verif(nombre_de_joueurs):
+
+    mise_verif = {}
+    for i in range (0, nombre_de_joueurs):
+        mise['j'+str(i)] = 0
+
+    return(mise_verif)
 
 #vérifier que le tour n'est pas fini
 
