@@ -8,6 +8,7 @@
 def détermination_dealer(nombre_de_joueurs, dealer):
     
     dealer += 1
+    print('Le nouveau dealer est le joueur numéro :', dealer)
     
     return(dealer)
 
@@ -195,4 +196,6 @@ def action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, arge
 
 def tour_de_jeu(nombre_de_joueurs, mise, argent):
 
+    dealer = détermination_premier_dealer(nombre_de_joueurs)
+    petite_blinde, grosse_blinde, numero_petite_blinde, numero_grosse_blinde, mise_minimale = attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, argent)
     
