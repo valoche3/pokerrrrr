@@ -98,7 +98,8 @@ def joueur_present(nombre_de_joueurs):
     present = {'j'+str(i) for i in range(nombre_de_joueurs)}
 
     return(present)
-    
+  
+  
 def definition_joueur_actuel(nombre_de_joueurs, dealer):
 
     if ((nombre_de_joueurs - 1) - (dealer)) < 3:
@@ -110,18 +111,28 @@ def definition_joueur_actuel(nombre_de_joueurs, dealer):
 
     return(joueur_actuel, numero_joueur_actuel)
 
-#vérifier que le tour n'est pas fini
 
-if present != {}:
-    verif = mise_verif[random.choice(present)]
-    for joueur in present:
-        a = mise_verif[joueur]
-        if a != verif:
-            tour = True
-        else :
-            tour = False
-else:
-    tour = False
+def mise_verif(nombre_de_joueurs,):
+
+    mise_verif = initialisation_de_dictionnaire(nombre_de_joueurs, 0)
+
+    return(mise_verif)
+
+
+def avancee_tour(mise, present):
+
+    if present != {}:
+        verif = mise_verif[random.choice(present)]
+        for joueur in present:
+            a = mise_verif[joueur]
+            if a != verif:
+                tour = True
+            else :
+                tour = False
+    else:
+        tour = False
+
+    return(tour)
 
 while tour == True:
 
