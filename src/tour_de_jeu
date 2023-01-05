@@ -1,88 +1,63 @@
-# tour de jeu 
+ def détermination_dealer(nombre_de_joueurs):
 
-# détermination aléatoire du premier dealer
+    dealer = randint(0, nombre_de_joueurs-1)
+    print('le dealer est le joueur numéro : ', dealer)
 
-dealer = randint(0, nombre_de_joueurs-1)
-print('dealer : ', dealer)
+    return(dealer)
+    
 
-# petite blinde / grosse blinde
+def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, argent):
 
-if nombre_de_joueurs > 2: #si le nombre de joueurs est supérieur strictement à 2
+    if nombre_de_joueurs > 2:
 
-    if dealer <= nombre_de_joueurs-3:
-        petite_blinde = int(input('petite blinde : '))
-        while petite_blinde > argent['j'+str(dealer+1)]:
+        if dealer <= nombre_de_joueurs-3:
+
             petite_blinde = int(input('petite blinde : '))
-        mise['j'+str(dealer+1)] = petite_blinde
+            while petite_blinde > argent['j'+str(dealer+1)]:
+                petite_blinde = int(input('petite blinde : '))
+            mise['j' + str(dealer+1)] = petite_blinde
 
-        grosse_blinde = 2*petite_blinde
-        a = False
-        i = 0
-        while a == False:
-            if argent['j'+str(dealer+2+i)] > grosse_blinde:
-                a = True 
-                mise['j'+str(dealer+2+i)] = grosse_blinde
-            else:
-                i += 1
+        elif dealer == nombre_de_joueurs-2:
 
-    elif dealer == nombre_de_joueurs-2:
-        petite_blinde = int(input('petite blinde : '))
-        while petite_blinde > argent['j'+str(dealer+1)]:
             petite_blinde = int(input('petite blinde : '))
-        mise['j'+str(dealer+1)] = petite_blinde
+            while petite_blinde > argent['j'+str(dealer+1)]:
+                petite_blinde = int(input('petite blinde : '))
+            mise['j' + str(dealer+1)] = petite_blinde
 
-        grosse_blinde = 2*petite_blinde
-        a = False
-        i = 0
-        while a == False:
-            if argent['j'+str(i)] > grosse_blinde:
-                a = True 
-                mise['j'+str(i)] = grosse_blinde
-            else:
-                i += 1
-                
+        else:
+
+            petite_blinde = int(input('petite blinde : '))
+            while petite_blinde > argent['j0']:
+                petite_blinde = int(input('petite blinde : '))
+            mise['j0'] = petite_blinde
+
     else:
-        petite_blinde = int(input('petite blinde : '))
-        while petite_blinde > argent['j0']:
+        if dealer == 0:
             petite_blinde = int(input('petite blinde : '))
-        mise['j0'] = petite_blinde
+            grosse_blinde = 2*petite_blinde
+            while petite_blinde > argent['j0'] and grosse_blinde > argent['j1']:
+                petite_blinde = int(input('petite blinde : '))
+                grosse_blinde = 2*petite_blinde
+            mise['j0'] = petite_blinde 
+            mise['j1'] = grosse_blinde
 
-        grosse_blinde = 2*petite_blinde
-        a = False
-        i = 0
-        while a == False:
-            if argent['j'+str(i+1)] > grosse_blinde:
-                a = True 
-                mise['j'+str(i+1)] = grosse_blinde
-            else:
-                i += 1 
+        else: 
+            petite_blinde = int(input('petite blinde : '))
+            grosse_blinde = 2*petite_blinde
+            while petite_blinde > argent['j1'] and grosse_blinde > argent['j0']:
+                petite_blinde = int(input('petite blinde : '))
+                grosse_blinde = 2*petite_blinde
+            mise['j1'] = petite_blinde 
+            mise['j0'] = grosse_blinde
+    
+    return(petite_blinde, grosse_blinde)
 
-else: #si le nombre de joueurs est égal à 2
-    if dealer == 0: #si le dealer est le j0
-        petite_blinde = int(input('petite blinde : '))
-        grosse_blinde = 2*petite_blinde
-        while petite_blinde > argent['j0'] and grosse_blinde > argent['j1']:
-           petite_blinde = int(input('petite blinde : '))
-           grosse_blinde = 2*petite_blinde
-        mise['j0'] = petite_blinde 
-        mise['j1'] = grosse_blinde
 
-    else: #si le dealer est le j1
-        petite_blinde = int(input('petite blinde : '))
-        grosse_blinde = 2*petite_blinde
-        while petite_blinde > argent['j1'] and grosse_blinde > argent['j0']:
-           petite_blinde = int(input('petite blinde : '))
-           grosse_blinde = 2*petite_blinde
-        mise['j1'] = petite_blinde 
-        mise['j0'] = grosse_blinde
- 
+def joueur_present(nombre_de_joueurs):
 
-###NOUVEAU
+    present = {'j'+str(i) for i in range(nombre_de_joueurs)}
 
-# avec strictement plus de deux joueurs
-
-present = {'j'+str(i) for i in range(nombre_de_joueurs)}
-print(present)
+    return(present)
 
 # flop
 
