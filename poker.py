@@ -10,5 +10,4 @@ def main():
     détermination_du_vainqueur(partie.mains, partie.cartes_du_milieu)
     print("Fin du jeu")
 
-
 main()
