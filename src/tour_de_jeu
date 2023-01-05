@@ -29,7 +29,7 @@ def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, arg
                     i += 1
             numero_grosse_blinde = dealer + 2 + i
 
-        elif dealer == nombre_de_joueurs-2:
+        elif dealer == nombre_de_joueurs - 2:
 
             petite_blinde = int(input('petite blinde : '))
             while petite_blinde > argent['j'+str(dealer+1)]:
@@ -175,5 +175,3 @@ def action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, arge
         present.pop(joueur_actuel)
 
     return(mise, mise_verif, mise_minimale, present)
-
-    
