@@ -54,7 +54,12 @@ def distribution_cartes_du_milieu(paquet_de_jeu):
 class Partie:
     def __init__(self):
         self.nombre_de_joueurs = récupère_le_nombre_de_joueur()
-        self.mains, self.paquet_de_jeu = distribution_des_cartes_joueurs(self.nombre_de_joueurs)
-        self.mises = self.mises = initialisation_de_dictionnaire(self.nombre_de_joueurs, 0)
+        #self.mains, self.paquet_de_jeu = distribution_des_cartes_joueurs(self.nombre_de_joueurs)
+        #self.mises = self.mises = initialisation_de_dictionnaire(self.nombre_de_joueurs, 0)
         self.argent = self.argent = initialisation_de_dictionnaire(self.nombre_de_joueurs, 500)
+        #self.cartes_du_milieu, self.paquet_de_jeu = distribution_cartes_du_milieu(self.paquet_de_jeu)
+class sous_Partie():
+    def __init__(self, nombre_de_joueurs):
+        self.mains, self.paquet_de_jeu = distribution_des_cartes_joueurs(nombre_de_joueurs)
+        self.mises = self.mises = initialisation_de_dictionnaire(nombre_de_joueurs, 0)
         self.cartes_du_milieu, self.paquet_de_jeu = distribution_cartes_du_milieu(self.paquet_de_jeu)
