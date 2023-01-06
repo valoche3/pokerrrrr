@@ -4,8 +4,7 @@ from pygame import *
 import sys 
 import os 
 from Colors_class import Colors 
-from deck_and_cards_class import Deck, Card
-from Button_better_class_ import Button
+from Input_box import InputBox
 
 pygame.init()
 
@@ -15,21 +14,9 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Texas Hold'em")
 
 COLOR = Colors()
-DECK = Deck()
-BACK = pygame.image.load(os.path.join('Cards', 'red.png'))
-JETON1 = pygame.image.load(os.path.join('Jetons', 'bet-img1.png'))
-JETON2 = pygame.image.load(os.path.join('Jetons', 'bet-img.png'))
 
-
-# BUTTON = Button(pygame.image.load(os.path.join('Cards', 'red.png')).convert(), COLOR.white, 0, 0, 10, 40, 'BLABLA', )
-
-
-
-#BORDER = pygame.Rect(WIDTH/2 - 5, 0, 10, HEIGHT)
-
-
-# CARD = pygame.image.load(os.path.join( 'Cards', 'clubs_10.png'))
-CARD_TRANSFORM = pygame.transform.scale(Card(f'{3}.png', 3, 'clubs' ).image, (60,100))
+def affichage_image (nom_dossier, nom_image):
+    WIN.blit(pygame.image.load(os.path.join(nom_dossier, nom_image+'.png')), (0, 0))
 
 TAPIS =pygame.image.load(os.path.join( 'Tapis', 'Tapis_TexasHold\'em.jpeg'))
 TAPIS = pygame.transform.scale(TAPIS, (750,450))
@@ -53,27 +40,26 @@ def contour_boutons():
     pygame.draw.rect(WIN, COLOR.dark_green3, [700, HEIGHT-50, 140, 40])
 
 
-def draw_window(card, event):
+def draw_window(event):
     WIN.fill(COLOR.black)
     #pygame.draw.rect(WIN, BLACK, BORDER) 
     WIN.blit(TAPIS, (WIDTH/2 - WIDTH_TAPIS/2, HEIGHT/2 - HEIGHT_TAPIS/2))
-    WIN.blit(Card(f'{3}.png', 3, 'clubs' ).image, (card.x, card.y))
-    WIN.blit(Card(f'{14}.png', 14, 'diamonds' ).image, (card.x + 50, card.y))  
+    affichage_image('Cards\coeurs', 'Coeur_2') 
     # WIN.blit(BACK, (card.x + 50, card.y + 50)) 
 
     if event.type == pygame.MOUSEBUTTONDOWN:
         if pygame.mouse.get_pressed():
             if 50 <= pygame.mouse.get_pos()[0] <= 50 +140 and HEIGHT - 50 <= pygame.mouse.get_pos()[1] <= HEIGHT - 50 + 40:
-                WIN.blit(JETON1, (WIDTH_TAPIS//2, HEIGHT_TAPIS//2)) #comment garder le jeton affiché après avoir cliqué sur le boutton ?
+                affichage_image('Jetons', 'bet-img1') #comment garder le jeton affiché après avoir cliqué sur le boutton ?
 
         if pygame.mouse.get_pressed():
             if 700 <= pygame.mouse.get_pos()[0] <= 700 +140 and HEIGHT - 50 <= pygame.mouse.get_pos()[1] <= HEIGHT - 50 + 40:
-                    WIN.blit(JETON2, (WIDTH_TAPIS//2, HEIGHT_TAPIS//2))
+                    affichage_image('Jetons', 'bet-img1')
         
         if pygame.mouse.get_pressed():
             if 450 <= pygame.mouse.get_pos()[0] <= 450 +140 and HEIGHT - 50 <= pygame.mouse.get_pos()[1] <= HEIGHT - 50 + 40:
-                    WIN.blit(BACK, (card.x, card.y))
-                    WIN.blit(BACK, (card.x + 50, card.y))
+                    affichage_image('Cards', 'red')
+                    affichage_image('Cards', 'red')
 
     if 50 <= pygame.mouse.get_pos()[0] <= 50 +140 and HEIGHT - 50 <= pygame.mouse.get_pos()[1] <= HEIGHT - 50 + 40:
         pygame.draw.rect(WIN,COLOR.light_gray1,[50,HEIGHT-50,140,40])
@@ -88,29 +74,40 @@ def draw_window(card, event):
         contour_boutons()
     
     afficher_texte_bouttons()
-    pygame.display.update() 
+    pygame.display.update()
+    
      
 
-
-def main():
+def main1():
     card = pygame.Rect(100, 300, 60, 100)
     clock = pygame.time.Clock()
+    input_box1 = InputBox(WIN, 100, 100, 140, 32)
+    input_box2 = InputBox(WIN, 100, 300, 140, 32)
+    input_boxes = [input_box1, input_box2]
     run = True
+    
     while run:
-        # pygame.draw.rect(surface, DARK_GREEN, (greenSquareX, greenSquareY, 20, 20))
-        # greenSquareX += 1
-        # greenSquareY += 1
         for event in pygame.event.get():
             if event.type == pygame.QUIT : 
                 run = False
-				
-        draw_window(card, event)
-        pygame.display.update() 
+            for box in input_boxes:
+                box.handle_event(event)
+
+        for box in input_boxes:
+            box.update()
+
+        draw_window(event)
+
+        for box in input_boxes:
+            box.draw()
+
+        pygame.display.flip()
+        pygame.display.update()
         clock.tick(60)
 
-    pygame.quit() 
 
 
 
 if __name__ == "__main__":
-    main()
+    main1()
+    pygame.quit()
