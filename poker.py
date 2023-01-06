@@ -7,7 +7,7 @@ def main():
     print("Début du jeu")
     print(f"Les mains des joueurs sont : {partie.mains}")
     print(f"Les cartes du milieu sont : {partie.cartes_du_milieu}")
-    tour_de_jeu(
+    tour_de_jeu(nombre_de_joueurs, mise, argent)
     détermination_du_vainqueur(partie.mains, partie.cartes_du_milieu)
     print("Fin du jeu")
 
