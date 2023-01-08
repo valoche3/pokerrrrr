@@ -1,27 +1,30 @@
-from src.miseEnPlace import Partie
-from src.miseEnPlace import sous_Partie
 from src.combinaisongagnante import détermination_du_vainqueur
-from src.pourmel import tour_de_jeu
-from src.pourmel import détermination_dealer
+from src.fin_de_petite_partie import mise_a_niveau_argent
 from src.pourmel import détermination_premier_dealer
+from src.pourmel import détermination_dealer
+from src.pourmel import tour_de_jeu
+from src.miseEnPlace import Partie
 
 def main():
     partie = Partie()
-    continuer = 'oui'
+
     dealer = None
-    while continuer == 'oui' :
-        sous_partie = sous_Partie(partie.nombre_de_joueurs)
-        print("Début du jeu")
+    partie_en_cours = True
+
+    while partie_en_cours:
+        # Commence un nouvel partie de jeu
+        partie.remise_à_zéro()
+
         if dealer == None :
             dealer = détermination_premier_dealer(partie.nombre_de_joueurs)
         else:
             dealer = détermination_dealer(dealer)
-        print(f"Les mains des joueurs sont : {sous_partie.mains}")
-        print(f"Les cartes du milieu sont : {sous_partie.cartes_du_milieu}")
-        present = tour_de_jeu(partie.nombre_de_joueurs, sous_partie.mises, partie.argent, sous_partie.mise_verif, dealer)
-        détermination_du_vainqueur(present, sous_partie.cartes_du_milieu, sous_partie.mains)
-        print("Fin du jeu")
-        continuer = input()
-        
+        print(f"Les mains des joueurs sont : {partie.mains}")
+        print(f"Les cartes du milieu sont : {partie.cartes_du_milieu}")
+        present, partie.mises = tour_de_jeu(partie.nombre_de_joueurs, partie.mises, partie.argent, partie.mise_verif, dealer, partie.cartes_du_milieu)
+        joueurs_gagnants = détermination_du_vainqueur(present, partie.cartes_du_milieu, partie.mains)
+        partie.argent = mise_a_niveau_argent(joueurs_gagnants, partie.argent, partie.mises)
+        partie_en_cours = True if input() == 'oui' else False
+
 
 main()
