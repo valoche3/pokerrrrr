@@ -243,6 +243,7 @@ def vérification_carte_la_plus_haute(main_du_joueur, _=None):
 
 
 def attributeur_de_valeur_par_joueur(mains, cartes_du_milieu):
+    données_des_joueurs = {}
     vérificateur = [
         vérification_quinte_flush_royal,
         vérification_quinte_flush,
@@ -254,9 +255,10 @@ def attributeur_de_valeur_par_joueur(mains, cartes_du_milieu):
         vérification_double_paire,
         vérification_paire,
         vérification_carte_la_plus_haute]
-
-    données_des_joueurs = initialisation_de_dictionnaire(len(mains), 0)
-
+    
+    for joueur in mains:
+        données_des_joueurs[joueur] = 0
+    
     for joueur in mains:
         for fonction_de_vérification in vérificateur:
             données_pour_un_joueur = fonction_de_vérification(mains[joueur], cartes_du_milieu)
@@ -266,8 +268,13 @@ def attributeur_de_valeur_par_joueur(mains, cartes_du_milieu):
     return données_des_joueurs
 
 
-def détermination_du_vainqueur(mains, cartes_du_milieu):
-    données_des_joueurs = attributeur_de_valeur_par_joueur(mains, cartes_du_milieu)
+def détermination_du_vainqueur(present, cartes_du_milieu, mains):
+    mains_presentes = {}
+    for joueur in present :
+        mains_presentes[joueur] = mains[joueur]
+    print(mains_presentes)
+        
+    données_des_joueurs = attributeur_de_valeur_par_joueur(mains_presentes, cartes_du_milieu)
     print(données_des_joueurs)
     joueurs_gagnants = []
     joueur_gagnant = ""

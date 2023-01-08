@@ -13,7 +13,7 @@ def récupère_le_nombre_de_joueur():
     while True:
         nombre_de_joueurs = int(input("Combien de joueurs ? > "))
         if nombre_de_joueurs <= 1 or nombre_de_joueurs > 10:
-            print("Nombre de joueurs doit être compris entre 0 et 10 !")
+            print("Nombre de joueurs doit être compris entre 2 et 10 !")
         else:
             break
 
@@ -63,3 +63,5 @@ class sous_Partie():
         self.mains, self.paquet_de_jeu = distribution_des_cartes_joueurs(nombre_de_joueurs)
         self.mises = self.mises = initialisation_de_dictionnaire(nombre_de_joueurs, 0)
         self.cartes_du_milieu, self.paquet_de_jeu = distribution_cartes_du_milieu(self.paquet_de_jeu)
+        self.mise_verif = initialisation_de_dictionnaire(nombre_de_joueurs, 0)
+        
