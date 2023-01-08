@@ -369,11 +369,11 @@ class sous_Partie():
 def détermination_premier_dealer(nombre_de_joueurs):
 
     dealer = randint(0, nombre_de_joueurs - 1)
-    print('le dealer est le joueur numéro : ', dealer)
+    print('Le dealer est le joueur numéro : ', dealer)
 
     return(dealer)
     
-def détermination_dealer(nombre_de_joueurs, dealer):
+def détermination_dealer(dealer):
     
     dealer += 1
     print('Le nouveau dealer est le joueur numéro :', dealer)
@@ -484,7 +484,7 @@ def premier_joueur(nombre_de_joueurs, dealer, mod = 'flop'):
             joueur_actuel = 'j' + str(dealer + 3)
             numero_joueur_actuel = dealer + 3
     else: 
-        if dealer != 'j' + str(nombre_de_joueurs - 1):
+        if dealer != nombre_de_joueurs - 1:
             joueur_actuel = 'j' + str(dealer + 1)
             numero_joueur_actuel = dealer + 1
             
@@ -496,13 +496,13 @@ def premier_joueur(nombre_de_joueurs, dealer, mod = 'flop'):
 
     return(joueur_actuel, numero_joueur_actuel)
        
-def joueur_actuel(nombre_de_joueurs, dealer, numero_joueur_actuel):
+def def_joueur_actuel(nombre_de_joueurs, dealer, joueur_actuel, numero_joueur_actuel):
 
     if joueur_actuel == 'j' + str(nombre_de_joueurs - 1):
-        joueur_actuel == 'j0'
+        joueur_actuel = 'j0'
         numero_joueur_actuel = 0 
     else:
-        joueur_actuel == 'j' + str(numero_joueur_actuel + 1)
+        joueur_actuel = 'j' + str(numero_joueur_actuel + 1)
         numero_joueur_actuel = numero_joueur_actuel + 1 
 
     print("C'est à", joueur_actuel, "de jouer")
@@ -515,92 +515,163 @@ def joueur_actuel(nombre_de_joueurs, dealer, numero_joueur_actuel):
 
     return(mise_verif)
 
-def avancee_tour(mise, present, mise_verif):
+def def_mise_minimale(mise_verif, petite_blinde, mod = 'flop'):
+    a = False
+    for k in mise_verif:
+        if mise_verif[k] == 0:
+            a = True
+        else:
+            a = False
+    if a == True and mod == 'flop':
+        mise_minimale = petite_blinde
+    elif a == True and mod == 'turn/river':
+        mise_minimale = 0
+    else:
+        maxi = None
+        for k in mise_verif:
+            if maxi == None or mise_verif[k] > maxi:
+                maxi = mise_verif[k]
+        mise_minimale = maxi
+    return(mise_minimale)
 
+def avancee_tour(mise, present, mise_verif):
     if present != {}:
-        for joueur in mise:
-            if joueur in present:
-                verif = mise_verif[joueur]
+        maxi = None
+        for k in mise_verif:
+            if maxi == None or mise_verif[k] > maxi:
+                maxi = mise_verif[k]
+        
         for joueur in present:
             a = mise_verif[joueur]
-            if a != verif:
+            if a != maxi:
                 tour = True
-            else :
+                break
+            else:
                 tour = False
     else:
         tour = False
 
     return(tour)
 
-def actions_possibles(joueur_actuel, present, mise_minimale, argent):
+def actions_possibles(joueur_actuel, present, mise_minimale, argent, mise, mise_verif, petite_blinde, mod = 'flop'):
 
         if joueur_actuel in present:
 
             print('Voici les actions que tu peux faire :')
-            if argent[joueur_actuel] >= mise_minimale:
-                print("s'aligner")
-                print("miser jusqu'à", str(argent[joueur_actuel]))
+            if mod == 'flop':
+                if argent[joueur_actuel] >= def_mise_minimale(mise_verif, petite_blinde, mod = 'flop'):
+                    print("s'aligner")
+                    print("miser jusqu'à", argent[joueur_actuel] - mise[joueur_actuel])
+                elif argent[joueur_actuel] >= def_mise_minimale(mise_verif, petite_blinde, mod = 'turn/river'):
+                    print("s'aligner")
+                    print("miser jusqu'à", argent[joueur_actuel] - mise[joueur_actuel]) 
             print('se coucher')
             
-def action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent):
+def action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent, nombre_de_joueurs, dealer, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'flop'):
 
-    a = input('Que veux-tu faire ? :')
-    actions_possibles(joueur_actuel, present, mise_minimale)   
-    while a == "s'aligner" or a == 'miser' or a == 'se coucher':
-        a = input('Que veux-tu faire ? :') 
-    if a == "s'aligner":
-        mise[joueur_actuel] += mise_minimale
-        mise_verif[joueur_actuel] = mise_minimale
-        mise_minimale = mise_verif[joueur_actuel] 
-    elif a == "miser":
-        mettre = input('Combien veux-tu miser ?', "jusqu'à", argent[joueur_actuel])
-        mise[joueur_actuel] += mettre
-        mise_verif[joueur_actuel] = mettre
-        mise_minimale = mise_verif[joueur_actuel]
-    else:
-        present.pop(joueur_actuel)
+    if joueur_actuel in present:
+        actions_possibles(joueur_actuel, present, mise_minimale, argent, mise, mise_verif, petite_blinde)
+        a = input('Que veux-tu faire ? :')   
+        while a != "s'aligner" and a != 'miser' and a != 'se coucher':
+            a = input('Que veux-tu faire ? :') 
+        if a == "s'aligner": 
+            if mod == 'flop':
+                if numero_joueur_actuel == numero_petite_blinde:
+                    mise[joueur_actuel] = def_mise_minimale(mise_verif, petite_blinde, mod = 'flop') + petite_blinde
+                elif numero_joueur_actuel == numero_grosse_blinde:
+                    mise[joueur_actuel] = def_mise_minimale(mise_verif, petite_blinde, mod = 'flop') + grosse_blinde 
+                else:
+                    mise[joueur_actuel] = def_mise_minimale(mise_verif, petite_blinde, mod = 'flop')
+                mise_verif[joueur_actuel] = def_mise_minimale(mise_verif, petite_blinde, mod = 'flop')
+            else:
+                if numero_joueur_actuel == numero_petite_blinde:
+                    mise[joueur_actuel] = def_mise_minimale(mise_verif, petite_blinde, mod = 'turn/river') + petite_blinde
+                elif numero_joueur_actuel == numero_grosse_blinde:
+                    mise[joueur_actuel] = def_mise_minimale(mise_verif, petite_blinde, mod = 'turn/river') + grosse_blinde 
+                else:
+                    mise[joueur_actuel] = def_mise_minimale(mise_verif, petite_blinde, mod = 'turn/river')
+                mise_verif[joueur_actuel] = def_mise_minimale(mise_verif, petite_blinde, mod = 'turn/river') 
+        elif a == "miser":
+            print("Combien veux-tu miser ? jusqu'à", argent[joueur_actuel] - mise[joueur_actuel])
+            a_miser = int(input())
+            while a_miser > argent[joueur_actuel] - mise[joueur_actuel]:
+                a_miser = int(input("Vous navez pas assez, nouvelle mise : "))
+            mise[joueur_actuel] += a_miser
+            mise_verif[joueur_actuel] += a_miser
+            mise_minimale = mise_verif[joueur_actuel]
+        else:
+            present.discard(joueur_actuel)
+    joueur_actuel, numero_joueur_actuel = def_joueur_actuel(nombre_de_joueurs, dealer, joueur_actuel, numero_joueur_actuel)
 
-    return(mise, mise_verif, mise_minimale, present)
+    return(mise, mise_verif, mise_minimale, present, joueur_actuel, numero_joueur_actuel)
 
+dealer = détermination_premier_dealer(nombre_de_joueurs)
 
 def tour_de_jeu(nombre_de_joueurs, mise, argent, mise_verif):
 
     present = joueur_present(nombre_de_joueurs)
-    dealer = détermination_premier_dealer(nombre_de_joueurs)
-    petite_blinde, grosse_blinde, numero_petite_blinde, numero_grosse_blinde, mise_minimale = attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, argent)
-    present = joueur_present(nombre_de_joueurs)
-    #mise_verif = mise_verif(nombre_de_joueurs)
-    joueur_actuel = premier_joueur(nombre_de_joueurs, dealer, mod = 'flop')
+    petite_blinde, grosse_blinde, numero_petite_blinde, numero_grosse_blinde, mise_minimale = attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, argent) 
+    joueur_actuel, numero_joueur_actuel = premier_joueur(nombre_de_joueurs, dealer, mod = 'flop')
+    tour = True
+    print(mise_verif)
+
+    #attention : on ne peut pas miser moins que la personne d'avant
+
+    print('Début du tour de flop')
+
+    for i in range(nombre_de_joueurs):
+
+        mise, mise_verif, mise_minimale, present, joueur_actuel, numero_joueur_actuel = action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent, nombre_de_joueurs, dealer, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'flop')
+        print(mise_verif)
+        print(joueur_actuel)
+        print(present)
+
     tour = avancee_tour(mise, present, mise_verif)
-    
+
     while tour == True:
-        print(1)
-        actions_possibles(joueur_actuel, present, mise_minimale)
-        mise, mise_verif, mise_minimale, present = action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent)
-        joueur_actuel = joueur_actuel(nombre_de_joueurs, dealer)
-        #mise_verif = mise_verif(nombre_de_joueurs, present)
+
+
+        mise, mise_verif, mise_minimale, present, joueur_actuel, numero_joueur_actuel = action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent, nombre_de_joueurs, dealer, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'flop')
+        
         tour = avancee_tour(mise, present, mise_verif)
+
+    print('Début du tour de turn')
 
 #retourner les 3 cartes de flop (aurel et mel)
-    joueur_actuel = premier_joueur(nombre_de_joueurs, dealer, mod = 'turn')
+    joueur_actuel, numero_joueur_actuel = premier_joueur(nombre_de_joueurs, dealer, mod = 'turn')
+    if present != {}:
+        tour = True
+
+    for i in range(nombre_de_joueurs):
+
+        mise, mise_verif, mise_minimale, present, joueur_actuel, numero_joueur_actuel = action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent, nombre_de_joueurs, dealer, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'turn/river')
+
     tour = avancee_tour(mise, present, mise_verif)
+
     while tour == True:
-    
-        actions_possibles(joueur_actuel, present, mise_minimale)
-        mise, mise_verif, mise_minimale, present = action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent)
-        joueur_actuel = joueur_actuel(nombre_de_joueurs, dealer, mod = 'turn')
-        #mise_verif = mise_verif(nombre_de_joueurs, present)
-        tour = avancee_tour(mise, present, mise_verif)
+
+        mise, mise_verif, mise_minimale, present, joueur_actuel, numero_joueur_actuel = action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent, nombre_de_joueurs, dealer, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'turn/river')
+        
+        tour = avancee_tour(mise, present, mise_verif) 
+
+    print('Début du tour de river')
 
 #retourner la carte de turn (aurel et mel)
-    joueur_actuel = premier_joueur(nombre_de_joueurs, dealer, mod = 'river')
-    tour = avancee_tour(mise, present, mise_verif) 
+    joueur_actuel, numero_joueur_actuel = premier_joueur(nombre_de_joueurs, dealer, mod = 'river')
+ 
+    if present != {}:
+        tour = True
+
+    for i in range(nombre_de_joueurs):
+
+        mise, mise_verif, mise_minimale, present, joueur_actuel, numero_joueur_actuel = action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent, nombre_de_joueurs, dealer, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'turn/river')
+    
+    tour = avancee_tour(mise, present, mise_verif)
+
     while tour == True:
     
-        actions_possibles(joueur_actuel, present, mise_minimale)
-        mise, mise_verif, mise_minimale, present = action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent)
-        joueur_actuel = joueur_actuel(nombre_de_joueurs, dealer, mod = 'river')
-        #mise_verif = mise_verif(nombre_de_joueurs, present)
+        mise, mise_verif, mise_minimale, present, joueur_actuel, numero_joueur_actuel = action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent, nombre_de_joueurs, dealer, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'turn/river')
+        
         tour = avancee_tour(mise, present, mise_verif)
     
 #retourner la carte de river (aurel et mel)
