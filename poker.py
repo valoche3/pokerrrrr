@@ -20,11 +20,12 @@ def main():
         else:
             dealer = détermination_dealer(dealer)
         print(f"Les mains des joueurs sont : {partie.mains}")
-        print(f"Les cartes du milieu sont : {partie.cartes_du_milieu}")
+        #print(f"Les cartes du milieu sont : {partie.cartes_du_milieu}")
         present, partie.mises = tour_de_jeu(partie.nombre_de_joueurs, partie.mises, partie.argent, partie.mise_verif, dealer, partie.cartes_du_milieu)
         joueurs_gagnants = détermination_du_vainqueur(present, partie.cartes_du_milieu, partie.mains)
         partie.argent = mise_a_niveau_argent(joueurs_gagnants, partie.argent, partie.mises)
-        partie_en_cours = True if input() == 'oui' else False
+        print(partie.argent)
+        partie_en_cours = True if input("Voulez vous continuer : oui ou non") == 'oui' else False
 
 
 main()
