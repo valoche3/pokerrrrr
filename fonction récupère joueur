@@ -32,6 +32,14 @@ PLACEMENT_JOUEURS = [(WIDTH_TAPIS/2, 70),
 (WIDTH_TAPIS/4, 70), 
 (3*WIDTH_TAPIS/4, HEIGHT_TAPIS-70)]
 
+def draw_window():
+
+    WIN.fill(COLOR.black)
+
+    WIN.blit(TAPIS, (0, 0))
+
+    pygame.display.update()
+
 def affichage_image ( nom_dossier, nom_image, x, y):
     carte_retournée = pygame.image.load(os.path.join(nom_dossier, nom_image + '.png'))
     carte_retournée = pygame.transform.scale(carte_retournée, (50, 80))
