@@ -275,7 +275,7 @@ def détermination_du_vainqueur(present, cartes_du_milieu, mains):
     print(mains_presentes)
 
     données_des_joueurs = attributeur_de_valeur_par_joueur(mains_presentes, cartes_du_milieu)
-    print(données_des_joueurs)
+    #print(données_des_joueurs)
     joueurs_gagnants = []
     joueur_gagnant = ""
     id_combinaison_max = 0

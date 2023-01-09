@@ -1,5 +1,5 @@
 from random import randint
-from time import sleep
+import time
 
 
 def détermination_premier_dealer(nombre_de_joueurs):

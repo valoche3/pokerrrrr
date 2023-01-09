@@ -4,8 +4,10 @@ from src.pourmel import détermination_premier_dealer
 from src.pourmel import détermination_dealer
 from src.pourmel import tour_de_jeu
 from src.miseEnPlace import Partie
+from src.fin_de_petite_partie import gagnants_finaux
+import time
 
-def main():
+def Partie_de_jeu():
     partie = Partie()
 
     dealer = None
@@ -26,6 +28,7 @@ def main():
         partie.argent = mise_a_niveau_argent(joueurs_gagnants, partie.argent, partie.mises)
         print(partie.argent)
         partie_en_cours = True if input("Voulez vous continuer : oui ou non") == 'oui' else False
+    print(f"Le joueur gagnant est : {gagnants_finaux(partie.argent)}")
+    
 
-
-main()
+Partie_de_jeu()
