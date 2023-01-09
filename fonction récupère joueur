@@ -1,3 +1,29 @@
+COLOR = Colors()
+
+WIDTH, HEIGHT = 1300, 700
+WIN = pygame.display.set_mode((WIDTH, HEIGHT)) 
+
+pygame.display.set_caption("Texas Hold'em")
+
+TAPIS =pygame.image.load(os.path.join( 'Poker\Tapis', 'Tapis.jpg'))
+TAPIS = pygame.transform.scale(TAPIS, (WIDTH,HEIGHT))
+WIDTH_TAPIS = TAPIS.get_width()
+HEIGHT_TAPIS = TAPIS.get_height()
+
+PLACEMENT_JOUEURS = [(WIDTH_TAPIS/2, 70), 
+(WIDTH_TAPIS/2, HEIGHT_TAPIS -70), 
+(WIDTH_TAPIS-70, HEIGHT_TAPIS/3), 
+(20, HEIGHT_TAPIS/3), 
+(3* WIDTH_TAPIS / 4, 70), 
+(WIDTH_TAPIS-50, 2*HEIGHT_TAPIS/3), 
+(WIDTH_TAPIS/4, HEIGHT_TAPIS-70), 
+(20, 2*HEIGHT_TAPIS/3), 
+(WIDTH_TAPIS/4, 70), 
+(3*WIDTH_TAPIS/4, HEIGHT_TAPIS-70)]
+
+pygame.init()
+
+
 def récupère_le_nombre_de_joueur2(user_text):
     nombre_de_joueurs = int(user_text)  
     if nombre_de_joueurs <= 1 or nombre_de_joueurs > 10:
@@ -11,3 +37,24 @@ def récupère_le_nombre_de_joueur2(user_text):
         
 
         return nombre_de_joueurs, user_text
+       
+ def distribution_des_cartes_joueurs(nombre_de_joueurs, dico_argent):
+
+    paquet_de_jeu = Piques + Trèfles + Coeurs + Carreaux
+    mains = initialisation_de_dictionnaire(nombre_de_joueurs, 0)
+
+    for i in mains:
+        mains[i] = [0, 0]
+        mains[i][0] = paquet_de_jeu.pop(randint(0, len(paquet_de_jeu) - 1))  #afficher les cartes face cachée, 2 par joueur
+        mains[i][1] = paquet_de_jeu.pop(randint(0, len(paquet_de_jeu) - 1))
+        for i in range(nombre_de_joueurs) :
+            affichage_image ( 'Poker\Cards', 'red', PLACEMENT_JOUEURS[i][0],PLACEMENT_JOUEURS[i][1] )
+            afficher_texte_bouttons(TAPIS, f" {dico_argent['j'+ str(i)]}", (PLACEMENT_JOUEURS[i][0],PLACEMENT_JOUEURS[i][1] - 30), (0, 0, 0, 0))
+
+    for i in mains:
+        mains[i] = [0, 0]
+        mains[i][0] = paquet_de_jeu.pop(randint(0, len(paquet_de_jeu) - 1))
+        mains[i][1] = paquet_de_jeu.pop(randint(0, len(paquet_de_jeu) - 1))
+
+    return mains, paquet_de_jeu
+
