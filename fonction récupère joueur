@@ -31,8 +31,6 @@ PLACEMENT_JOUEURS = [(WIDTH_TAPIS/2, 70),
 (WIDTH_TAPIS/4, 70), 
 (3*WIDTH_TAPIS/4, HEIGHT_TAPIS-70)]
 
-pygame.init()
-
 
 def récupère_le_nombre_de_joueur2(user_text):
     nombre_de_joueurs = int(user_text)  
@@ -68,3 +66,22 @@ def récupère_le_nombre_de_joueur2(user_text):
 
     return mains, paquet_de_jeu
 
+
+def main2():
+
+    while True : 
+        clock = pygame.time.Clock()
+
+        for event in pygame.event.get():
+            draw_window()
+            
+
+            if event.type == pygame.QUIT :
+                pygame.quit()
+                sys.exit()
+        
+            distribution_des_cartes_joueurs(4, )
+        pygame.display.update()
+        clock.tick(60)
+
+main2()
