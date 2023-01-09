@@ -44,7 +44,7 @@ def afficher_texte_bouttons( fenetre, nom_boutton, positions=(0,0), couleur=(0, 
     fenetre.blit(nom_boutton, positions)
 
        
- def distribution_des_cartes_joueurs(nombre_de_joueurs, dico_argent):
+def distribution_des_cartes_joueurs(nombre_de_joueurs, dico_argent):
 
     paquet_de_jeu = Piques + Trèfles + Coeurs + Carreaux
     mains = initialisation_de_dictionnaire(nombre_de_joueurs, 0)
