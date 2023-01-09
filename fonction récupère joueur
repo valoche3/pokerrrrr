@@ -1,0 +1,13 @@
+def récupère_le_nombre_de_joueur2(user_text):
+    nombre_de_joueurs = int(user_text)  
+    if nombre_de_joueurs <= 1 or nombre_de_joueurs > 10:
+        afficher_texte(TAPIS,"Nombre de joueurs doit être compris entre 2 et 10 !", (0, 110), (255, 255, 255, 0))
+        user_text = ""
+        nombre_de_joueurs = None
+        return nombre_de_joueurs, user_text
+    else:
+        afficher_texte(TAPIS,f"Vous jouez à {nombre_de_joueurs} joueurs", (0, 110), (255, 255, 255, 0))
+    
+        
+
+        return nombre_de_joueurs, user_text
