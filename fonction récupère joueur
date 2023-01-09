@@ -32,7 +32,16 @@ PLACEMENT_JOUEURS = [(WIDTH_TAPIS/2, 70),
 (WIDTH_TAPIS/4, 70), 
 (3*WIDTH_TAPIS/4, HEIGHT_TAPIS-70)]
 
-        
+def affichage_image ( nom_dossier, nom_image, x, y):
+    carte_retournée = pygame.image.load(os.path.join(nom_dossier, nom_image + '.png'))
+    carte_retournée = pygame.transform.scale(carte_retournée, (50, 80))
+    TAPIS.blit(carte_retournée, (x, y))
+    TAPIS.blit(carte_retournée, (x+20, y ))
+
+def afficher_texte_bouttons( fenetre, nom_boutton, positions=(0,0), couleur=(0, 0, 0, 0)):
+    smallfont = pygame.font.SysFont('Corbel',22)
+    nom_boutton=smallfont.render(nom_boutton , True , couleur)
+    fenetre.blit(nom_boutton, positions)
 
        
  def distribution_des_cartes_joueurs(nombre_de_joueurs, dico_argent):
