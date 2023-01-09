@@ -12,7 +12,7 @@ def détermination_premier_dealer(nombre_de_joueurs):
 def détermination_dealer(dealer):
 
     dealer += 1
-    print('Le nouveau dealer est le joueur numéro :', dealer)
+    print('Le nouveau dealer est le joueur numéro :', dealer, 'le joueur qui paye la petite blinde est le joueur suivant le dealer')
 
     return(dealer)
 
@@ -157,7 +157,7 @@ def def_joueur_actuel(nombre_de_joueurs, dealer, joueur_actuel, numero_joueur_ac
     return(joueur_actuel, numero_joueur_actuel)
 
 
-def def_mise_minimale(mise_verif, petite_blinde, mod = 'flop'):
+def def_mise_minimale(mise_verif, grosse_blinde, mod = 'flop'):
 
     a = False
     for k in mise_verif:
@@ -166,7 +166,7 @@ def def_mise_minimale(mise_verif, petite_blinde, mod = 'flop'):
         else:
             a = False
     if a == True and mod == 'flop':
-        mise_minimale = petite_blinde
+        mise_minimale = grosse_blinde
     elif a == True and mod == 'turn/river':
         mise_minimale = 0
     else:
@@ -224,20 +224,20 @@ def action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, arge
         if a == "s'aligner":
             if mod == 'flop':
                 if numero_joueur_actuel == numero_petite_blinde:
-                    mise[joueur_actuel] = def_mise_minimale(mise_verif, petite_blinde, mod = 'flop') + petite_blinde
+                    mise[joueur_actuel] = def_mise_minimale(mise_verif, grosse_blinde, mod = 'flop') + petite_blinde
                 elif numero_joueur_actuel == numero_grosse_blinde:
-                    mise[joueur_actuel] = def_mise_minimale(mise_verif, petite_blinde, mod = 'flop') + grosse_blinde
+                    mise[joueur_actuel] = def_mise_minimale(mise_verif, grosse_blinde, mod = 'flop') + grosse_blinde
                 else:
-                    mise[joueur_actuel] = def_mise_minimale(mise_verif, petite_blinde, mod = 'flop')
-                mise_verif[joueur_actuel] = def_mise_minimale(mise_verif, petite_blinde, mod = 'flop')
+                    mise[joueur_actuel] = def_mise_minimale(mise_verif, grosse_blinde, mod = 'flop')
+                mise_verif[joueur_actuel] = def_mise_minimale(mise_verif, grosse_blinde, mod = 'flop')
             else:
                 if numero_joueur_actuel == numero_petite_blinde:
-                    mise[joueur_actuel] = def_mise_minimale(mise_verif, petite_blinde, mod = 'turn/river') + petite_blinde
+                    mise[joueur_actuel] = def_mise_minimale(mise_verif, grosse_blinde, mod = 'turn/river') + petite_blinde
                 elif numero_joueur_actuel == numero_grosse_blinde:
-                    mise[joueur_actuel] = def_mise_minimale(mise_verif, petite_blinde, mod = 'turn/river') + grosse_blinde
+                    mise[joueur_actuel] = def_mise_minimale(mise_verif, grosse_blinde, mod = 'turn/river') + grosse_blinde
                 else:
-                    mise[joueur_actuel] = def_mise_minimale(mise_verif, petite_blinde, mod = 'turn/river')
-                mise_verif[joueur_actuel] = def_mise_minimale(mise_verif, petite_blinde, mod = 'turn/river')
+                    mise[joueur_actuel] = def_mise_minimale(mise_verif,grosse_blinde, mod = 'turn/river')
+                mise_verif[joueur_actuel] = def_mise_minimale(mise_verif, grosse_blinde, mod = 'turn/river')
         elif a == "miser":
             print("Combien veux-tu miser ? jusqu'à", argent[joueur_actuel] - mise[joueur_actuel])
             a_miser = int(input())
