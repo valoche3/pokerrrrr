@@ -7,7 +7,20 @@ from src.miseEnPlace import Partie
 from src.fin_de_petite_partie import gagnants_finaux
 import time
 
-def Partie_de_jeu():
+
+def main():
+    choix_du_programe_status = False
+
+    while choix_du_programe_status:
+        choix_du_programe = input("Voulez-vous lancer le jeu avec l'interface graphique ? (Y/N) ")
+        if choix_du_programe == "Y":
+            choix_du_programe_status = True
+            return
+        elif choix_du_programe == "N":
+            choix_du_programe_status = True
+            return
+        choix_du_programe = ""
+
     partie = Partie()
 
     dealer = None
@@ -29,6 +42,7 @@ def Partie_de_jeu():
         print(partie.argent)
         partie_en_cours = True if input("Voulez vous continuer : oui ou non") == 'oui' else False
     print(f"Le joueur gagnant est : {gagnants_finaux(partie.argent)}")
-    
 
-Partie_de_jeu()
+
+if __name__ == "main" :
+    main()

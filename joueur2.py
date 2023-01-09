@@ -1,7 +1,7 @@
 from random import randint
-from Color_class import Colors
+from src.Color_class import Colors
 import pygame
-from miseEnPlace import *
+from src.miseEnPlace import *
 import sys
 import os
 
@@ -88,7 +88,7 @@ def main2():
                 pygame.quit()
                 sys.exit()
         
-            distribution_des_cartes_joueurs(4, )
+            distribution_des_cartes_joueurs(4 )
         pygame.display.update()
         clock.tick(60)
 
