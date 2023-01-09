@@ -1,4 +1,5 @@
 from random import randint
+from time import sleep
 
 
 def détermination_premier_dealer(nombre_de_joueurs):
@@ -199,25 +200,26 @@ def avancee_tour(mise, present, mise_verif):
 
     return(tour)
 
-def actions_possibles(joueur_actuel, present, mise_minimale, argent, mise, mise_verif, petite_blinde, mod = 'flop'):
+def actions_possibles(joueur_actuel, present, mise_minimale, argent, mise, mise_verif, grosse_blinde, mod = 'flop'):
 
-        if joueur_actuel in present:
+    if joueur_actuel in present:
 
-            print('Voici les actions que tu peux faire :')
-            if mod == 'flop':
-                if argent[joueur_actuel] >= def_mise_minimale(mise_verif, petite_blinde, mod = 'flop'):
-                    print("s'aligner (check si personne n'a misé)")
-                    print("miser jusqu'à", argent[joueur_actuel] - mise[joueur_actuel])
-                elif argent[joueur_actuel] >= def_mise_minimale(mise_verif, petite_blinde, mod = 'turn/river'):
-                    print("s'aligner (check si personne n'a misé)")
-                    print("miser jusqu'à", argent[joueur_actuel] - mise[joueur_actuel]) 
-            print('se coucher')
+        print('Voici les actions que tu peux faire :')
+        time.sleep(1)
+        if mod == 'flop':
+            if argent[joueur_actuel] >= def_mise_minimale(mise_verif, grosse_blinde, mod = 'flop'):
+                print("s'aligner (check si personne n'a misé)")
+                print("miser jusqu'à", argent[joueur_actuel] - mise[joueur_actuel])
+            elif argent[joueur_actuel] >= def_mise_minimale(mise_verif, grosse_blinde, mod = 'turn/river'):
+                print("s'aligner (check si personne n'a misé)")
+                print("miser jusqu'à", argent[joueur_actuel] - mise[joueur_actuel]) 
+        print('se coucher')
 
 
 def action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent, nombre_de_joueurs, dealer, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'flop'):
 
     if joueur_actuel in present:
-        actions_possibles(joueur_actuel, present, mise_minimale, argent, mise, mise_verif, petite_blinde)
+        actions_possibles(joueur_actuel, present, mise_minimale, argent, mise, mise_verif, grosse_blinde)
         a = input('Que veux-tu faire ? :')
         while a != "s'aligner" and a != 'miser' and a != 'se coucher':
             a = input('Que veux-tu faire ? :')
@@ -248,6 +250,7 @@ def action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, arge
             mise_minimale = mise_verif[joueur_actuel]
         else:
             present.discard(joueur_actuel)
+    time.sleep(1)
     joueur_actuel, numero_joueur_actuel = def_joueur_actuel(nombre_de_joueurs, dealer, joueur_actuel, numero_joueur_actuel, present)
     print(mise)
 
@@ -259,11 +262,13 @@ def tour_de_jeu(nombre_de_joueurs, mise, argent, mise_verif, dealer, cartes_du_m
     present = joueur_present(nombre_de_joueurs)
     petite_blinde, grosse_blinde, numero_petite_blinde, numero_grosse_blinde, mise_minimale = attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, argent)
     print('Début du tour de flop')
+    time.sleep(1)
     joueur_actuel, numero_joueur_actuel = premier_joueur(nombre_de_joueurs, dealer, mod = 'flop')
     tour = True
 
     print(f"Les cartes du milieu sont : {cartes_du_milieu[0:3]}")
-
+    time.sleep(1)
+    
     for i in range(nombre_de_joueurs):
         if len(present) == 1:
             tour = False
@@ -277,7 +282,9 @@ def tour_de_jeu(nombre_de_joueurs, mise, argent, mise_verif, dealer, cartes_du_m
         tour = avancee_tour(mise, present, mise_verif)
 
     print('Début du tour de turn')
+    time.sleep(1)
     print(f"Les cartes du milieu sont : {cartes_du_milieu[0:4]}")
+    time.sleep(1)
 
     joueur_actuel, numero_joueur_actuel = premier_joueur(nombre_de_joueurs, dealer, mod = 'turn')
     if present != {}:
@@ -296,7 +303,9 @@ def tour_de_jeu(nombre_de_joueurs, mise, argent, mise_verif, dealer, cartes_du_m
         tour = avancee_tour(mise, present, mise_verif)
 
     print('Début du tour de river')
+    time.sleep(1)
     print(f"Les cartes du milieu sont : {cartes_du_milieu[0:5]}")
+    time.sleep(1)
 
     joueur_actuel, numero_joueur_actuel = premier_joueur(nombre_de_joueurs, dealer, mod = 'river')
     if present != {}:
