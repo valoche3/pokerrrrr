@@ -29,6 +29,6 @@ def Partie_de_jeu():
         print(partie.argent)
         partie_en_cours = True if input("Voulez vous continuer : oui ou non") == 'oui' else False
     print(f"Le joueur gagnant est : {gagnants_finaux(partie.argent)}")
-    
+
 
 Partie_de_jeu()
