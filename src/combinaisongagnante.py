@@ -255,10 +255,10 @@ def attributeur_de_valeur_par_joueur(mains, cartes_du_milieu):
         vérification_double_paire,
         vérification_paire,
         vérification_carte_la_plus_haute]
-    
+
     for joueur in mains:
         données_des_joueurs[joueur] = 0
-    
+
     for joueur in mains:
         for fonction_de_vérification in vérificateur:
             données_pour_un_joueur = fonction_de_vérification(mains[joueur], cartes_du_milieu)
@@ -273,7 +273,7 @@ def détermination_du_vainqueur(present, cartes_du_milieu, mains):
     for joueur in present :
         mains_presentes[joueur] = mains[joueur]
     print(mains_presentes)
-        
+
     données_des_joueurs = attributeur_de_valeur_par_joueur(mains_presentes, cartes_du_milieu)
     print(données_des_joueurs)
     joueurs_gagnants = []
@@ -295,7 +295,7 @@ def détermination_du_vainqueur(present, cartes_du_milieu, mains):
                 hauteur_max = joueur[1]
                 joueur_gagnant = id_joueur
                 départageur_max = joueur[2]
-                
+
             else:
                 if (joueur[0] > id_combinaison_max or joueur[0] == id_combinaison_max) and joueur[1] == hauteur_max and joueur[2] > départageur_max:
                     départageur_max = joueur[2]
@@ -303,7 +303,8 @@ def détermination_du_vainqueur(present, cartes_du_milieu, mains):
     for id_joueur in données_des_joueurs:
         joueur = données_des_joueurs[id_joueur]
         if joueur[0] == id_combinaison_max and joueur[1] == hauteur_max and joueur[2] == départageur_max:
-                    if joueur not in joueurs_gagnants:
-                        joueurs_gagnants.append(id_joueur)
+            if joueur not in joueurs_gagnants:
+                joueurs_gagnants.append(id_joueur)
 
     print(f"le joueur gagnant est {joueur_gagnant}", joueurs_gagnants)
+    return joueurs_gagnants

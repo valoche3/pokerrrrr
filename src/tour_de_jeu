@@ -18,9 +18,9 @@ def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, arg
 
         if dealer <= nombre_de_joueurs-3:
 
-            petite_blinde = int(input('petite blinde : '))
+            petite_blinde = int(input('petite blinde : ')) #fuck
             while petite_blinde > argent['j'+str(dealer+1)]:
-                petite_blinde = int(input('petite blinde : '))
+                petite_blinde = int(input('petite blinde : ')) #fuck
             mise['j' + str(dealer+1)] = petite_blinde
             numero_petite_blinde = dealer + 1
         
@@ -56,9 +56,9 @@ def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, arg
 
         else:
 
-            petite_blinde = int(input('petite blinde : '))
+            petite_blinde = int(input('petite blinde : '))#fuck
             while petite_blinde > argent['j0']:
-                petite_blinde = int(input('petite blinde : '))
+                petite_blinde = int(input('petite blinde : '))#fuck
             mise['j0'] = petite_blinde
             numero_petite_blinde = 0
 
@@ -75,10 +75,10 @@ def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, arg
 
     else:
         if dealer == 0:
-            petite_blinde = int(input('petite blinde : '))
+            petite_blinde = int(input('petite blinde : '))#fuck
             grosse_blinde = 2 * petite_blinde
             while petite_blinde > argent['j0'] and grosse_blinde > argent['j1']:
-                petite_blinde = int(input('petite blinde : '))
+                petite_blinde = int(input('petite blinde : '))#fuck
                 grosse_blinde = 2 * petite_blinde
             mise['j0'] = petite_blinde 
             mise['j1'] = grosse_blinde
@@ -179,16 +179,16 @@ def actions_possibles(joueur_actuel, present, mise_minimale):
  
 def action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent):
 
-    a = input('Que veux-tu faire ? :')
+    a = input('Que veux-tu faire ? :')#fuck
     actions_possibles(joueur_actuel, present, mise_minimale)   
     while a == "s'aligner" or a == 'miser' or a == 'se coucher':
-        a = input('Que veux-tu faire ? :') 
+        a = input('Que veux-tu faire ? :') #fuck
     if a == "s'aligner":
         mise[joueur_actuel] += mise_minimale
         mise_verif[joueur_actuel] = mise_minimale
         mise_minimale = mise_verif[joueur_actuel] 
     elif a == "miser":
-        mettre = input('Combien veux-tu miser ?', "jusqu'à", argent[joueur_actuel])
+        mettre = input('Combien veux-tu miser ?', "jusqu'à", argent[joueur_actuel])#fuck
         mise[joueur_actuel] += mettre
         mise_verif[joueur_actuel] = mettre
         mise_minimale = mise_verif[joueur_actuel]
