@@ -12,7 +12,7 @@ def détermination_premier_dealer(nombre_de_joueurs):
 def détermination_dealer(dealer):
 
     dealer += 1
-    print('Le nouveau dealer est le joueur numéro :', dealer, 'le joueur qui paye la petite blinde est le joueur suivant le dealer')
+    print('Le nouveau dealer est le joueur numéro :', dealer, '\n', 'Le joueur qui paye la petite blinde est le joueur suivant le dealer.')
 
     return(dealer)
 
@@ -23,13 +23,13 @@ def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, arg
 
         if dealer <= nombre_de_joueurs-3:
 
-            petite_blinde = int(input('petite blinde : '))
+            petite_blinde = int(input('Petite blinde : '))
             while petite_blinde > argent['j'+str(dealer+1)]:
-                petite_blinde = int(input('petite blinde : '))
+                petite_blinde = int(input('Petite blinde : '))
             mise['j' + str(dealer+1)] = petite_blinde
             numero_petite_blinde = dealer + 1
 
-            grosse_blinde = 2*petite_blinde
+            grosse_blinde = 2 * petite_blinde
             a = False
             i = 0
             while a == False:
@@ -42,9 +42,9 @@ def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, arg
 
         elif dealer == nombre_de_joueurs - 2:
 
-            petite_blinde = int(input('petite blinde : '))
+            petite_blinde = int(input('Petite blinde : '))
             while petite_blinde > argent['j'+str(dealer+1)]:
-                petite_blinde = int(input('petite blinde : '))
+                petite_blinde = int(input('Petite blinde : '))
             mise['j' + str(dealer+1)] = petite_blinde
             numero_petite_blinde = dealer + 1
 
@@ -60,9 +60,9 @@ def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, arg
             numero_grosse_blinde = i
 
         else:
-            petite_blinde = int(input('petite blinde : '))
+            petite_blinde = int(input('Petite blinde : '))
             while petite_blinde > argent['j0']:
-                petite_blinde = int(input('petite blinde : '))
+                petite_blinde = int(input('Petite blinde : '))
             mise['j0'] = petite_blinde
             numero_petite_blinde = 0
 
@@ -70,19 +70,19 @@ def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, arg
             a = False
             i = 0
             while a == False:
-                if argent['j'+str(i+1)] > grosse_blinde:
+                if argent['j' + str(i+1)] > grosse_blinde:
                     a = True
-                    mise['j'+str(i+1)] = grosse_blinde
+                    mise['j' + str(i+1)] = grosse_blinde
                 else:
                     i += 1
             numero_grosse_blinde = i + 1
 
     else:
         if dealer == 0:
-            petite_blinde = int(input('petite blinde : '))
+            petite_blinde = int(input('Petite blinde : '))
             grosse_blinde = 2 * petite_blinde
             while petite_blinde > argent['j0'] and grosse_blinde > argent['j1']:
-                petite_blinde = int(input('petite blinde : '))
+                petite_blinde = int(input('Petite blinde : '))
                 grosse_blinde = 2 * petite_blinde
             mise['j0'] = petite_blinde
             mise['j1'] = grosse_blinde
@@ -90,10 +90,10 @@ def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, arg
             numero_grosse_blinde = 1
 
         else:
-            petite_blinde = int(input('petite blinde : '))
+            petite_blinde = int(input('Petite blinde : '))
             grosse_blinde = 2 * petite_blinde
             while petite_blinde > argent['j1'] and grosse_blinde > argent['j0']:
-                petite_blinde = int(input('petite blinde : '))
+                petite_blinde = int(input('Petite blinde : '))
                 grosse_blinde = 2 * petite_blinde
             mise['j1'] = petite_blinde
             mise['j0'] = grosse_blinde
@@ -169,7 +169,7 @@ def def_mise_minimale(mise_verif, grosse_blinde, mod = 'flop'):
         mise_minimale = grosse_blinde
     elif a == True and mod == 'turn/river':
         mise_minimale = 0
-    else:
+    elif a == False:
         maxi = None
         for k in mise_verif:
             if maxi == None or mise_verif[k] > maxi:
