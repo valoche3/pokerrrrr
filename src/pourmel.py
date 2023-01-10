@@ -9,21 +9,21 @@ def détermination_premier_dealer(nombre_de_joueurs):
     dealer = randint(0, nombre_de_joueurs - 1)
     print('\nLe dealer est le joueur numéro : ', dealer)
 
-    return(dealer)
+    return dealer
 
 
 def détermination_dealer(dealer):
     dealer += 1
     print('\nLe nouveau dealer est le joueur numéro :', dealer, '\n', 'Le joueur qui paye la petite blinde est le joueur suivant le dealer.')
 
-    return(dealer)
+    return dealer
 
 
 def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, argent):
 
     if nombre_de_joueurs > 2:
 
-        if dealer <= nombre_de_joueurs-3:
+        if dealer <= nombre_de_joueurs - 3:
 
             petite_blinde = int(input('Petite blinde : '))
             while petite_blinde > argent['j'+str(dealer+1)]:
@@ -104,14 +104,13 @@ def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, arg
 
     mise_minimale = petite_blinde
 
-    return(petite_blinde, grosse_blinde, numero_petite_blinde, numero_grosse_blinde, mise_minimale)
+    return petite_blinde, grosse_blinde, numero_petite_blinde, numero_grosse_blinde, mise_minimale
 
 
 def joueur_present(nombre_de_joueurs):
-
     present = {'j'+str(i) for i in range(nombre_de_joueurs)}
 
-    return(present)
+    return present
 
 
 def premier_joueur(nombre_de_joueurs, dealer, mod = 'flop'):
@@ -120,7 +119,7 @@ def premier_joueur(nombre_de_joueurs, dealer, mod = 'flop'):
         if mod == 'flop':
             if ((nombre_de_joueurs - 1) - (dealer)) < 3:
                 joueur_actuel = 'j' + str((dealer + 3) % nombre_de_joueurs)
-                numero_joueur_actuel = (dealer + 3) % nombre_de_joueurs 
+                numero_joueur_actuel = (dealer + 3) % nombre_de_joueurs
             else:
                 joueur_actuel = 'j' + str(dealer + 3)
                 numero_joueur_actuel = dealer + 3
@@ -142,12 +141,12 @@ def premier_joueur(nombre_de_joueurs, dealer, mod = 'flop'):
 
     print("\tC'est à", joueur_actuel, "de jouer")
 
-    return(joueur_actuel, numero_joueur_actuel)
+    return joueur_actuel, numero_joueur_actuel
 
 
-def def_joueur_actuel(nombre_de_joueurs, dealer, joueur_actuel, numero_joueur_actuel, present):
+def def_joueur_actuel(partie, graphique, joueur_actuel, numero_joueur_actuel, present):
 
-    if joueur_actuel == 'j' + str(nombre_de_joueurs - 1):
+    if joueur_actuel == 'j' + str(partie.nombre_de_joueurs - 1):
         joueur_actuel = 'j0'
         numero_joueur_actuel = 0
     else:
@@ -155,8 +154,9 @@ def def_joueur_actuel(nombre_de_joueurs, dealer, joueur_actuel, numero_joueur_ac
         numero_joueur_actuel = numero_joueur_actuel + 1
     if joueur_actuel in present :
         print("\tC'est à", joueur_actuel, "de jouer")
+        graphique.retourner_cartes(partie.mains)
 
-    return(joueur_actuel, numero_joueur_actuel)
+    return joueur_actuel, numero_joueur_actuel
 
 
 def def_mise_minimale(mise_verif, grosse_blinde, mod = 'flop'):
@@ -178,7 +178,7 @@ def def_mise_minimale(mise_verif, grosse_blinde, mod = 'flop'):
                 maxi = mise_verif[k]
         mise_minimale = maxi
 
-    return(mise_minimale)
+    return mise_minimale
 
 
 def avancee_tour(present, mise_verif):
@@ -198,10 +198,9 @@ def avancee_tour(present, mise_verif):
     else:
         tour = False
 
-    return(tour)
+    return tour
 
 def actions_possibles(joueur_actuel, present, mise_minimale, argent, mise, mise_verif, grosse_blinde, mod = 'flop'):
-
     if joueur_actuel in present:
 
         print('\tVoici les actions que tu peux faire : ')
@@ -215,54 +214,53 @@ def actions_possibles(joueur_actuel, present, mise_minimale, argent, mise, mise_
         print('\t\t- se coucher')
 
 
-def action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent, nombre_de_joueurs, dealer, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'flop'):
-
+def action_a_faire(partie, graphique, joueur_actuel, mise_minimale, present, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'flop'):
     if joueur_actuel in present:
-        actions_possibles(joueur_actuel, present, mise_minimale, argent, mise, mise_verif, grosse_blinde)
+        actions_possibles(joueur_actuel, present, mise_minimale, partie.argent, partie.mises, partie.mise_verif, grosse_blinde)
         a = input('\nQue veux-tu faire ? : ')
         while a != "s'aligner" and a != 'miser' and a != 'se coucher':
             a = input('\nQue veux-tu faire ? : ')
         if a == "s'aligner":
             if mod == 'flop':
                 if numero_joueur_actuel == numero_petite_blinde:
-                    mise[joueur_actuel] = def_mise_minimale(mise_verif, grosse_blinde, mod = 'flop') + petite_blinde
+                    partie.mises[joueur_actuel] = def_mise_minimale(partie.mise_verif, grosse_blinde, mod = 'flop') + petite_blinde
                 elif numero_joueur_actuel == numero_grosse_blinde:
-                    mise[joueur_actuel] = def_mise_minimale(mise_verif, grosse_blinde, mod = 'flop') + grosse_blinde
+                    partie.mises[joueur_actuel] = def_mise_minimale(partie.mise_verif, grosse_blinde, mod = 'flop') + grosse_blinde
                 else:
-                    mise[joueur_actuel] = def_mise_minimale(mise_verif, grosse_blinde, mod = 'flop')
-                mise_verif[joueur_actuel] = def_mise_minimale(mise_verif, grosse_blinde, mod = 'flop')
+                    partie.mises[joueur_actuel] = def_mise_minimale(partie.mise_verif, grosse_blinde, mod = 'flop')
+                partie.mise_verif[joueur_actuel] = def_mise_minimale(partie.mise_verif, grosse_blinde, mod = 'flop')
             else:
                 if numero_joueur_actuel == numero_petite_blinde:
-                    mise[joueur_actuel] = def_mise_minimale(mise_verif, grosse_blinde, mod = 'turn/river') + petite_blinde
+                    partie.mises[joueur_actuel] = def_mise_minimale(partie.mise_verif, grosse_blinde, mod = 'turn/river') + petite_blinde
                 elif numero_joueur_actuel == numero_grosse_blinde:
-                    mise[joueur_actuel] = def_mise_minimale(mise_verif, grosse_blinde, mod = 'turn/river') + grosse_blinde
+                    partie.mises[joueur_actuel] = def_mise_minimale(partie.mise_verif, grosse_blinde, mod = 'turn/river') + grosse_blinde
                 else:
-                    mise[joueur_actuel] = def_mise_minimale(mise_verif,grosse_blinde, mod = 'turn/river')
-                mise_verif[joueur_actuel] = def_mise_minimale(mise_verif, grosse_blinde, mod = 'turn/river')
+                    partie.mises[joueur_actuel] = def_mise_minimale(partie.mise_verif,grosse_blinde, mod = 'turn/river')
+                partie.mise_verif[joueur_actuel] = def_mise_minimale(partie.mise_verif, grosse_blinde, mod = 'turn/river')
         elif a == "miser":
-            print("Combien veux-tu miser ? jusqu'à ", argent[joueur_actuel] - mise[joueur_actuel])
+            print("Combien veux-tu miser ? jusqu'à ", partie.argent[joueur_actuel] - partie.mises[joueur_actuel])
             a_miser = int(input())
-            while a_miser > argent[joueur_actuel] - mise[joueur_actuel] or a_miser < mise_minimale:
+            while a_miser > partie.argent[joueur_actuel] - partie.mises[joueur_actuel] or a_miser < mise_minimale:
                 a_miser = int(input("Vous n'avez pas assez ou vous n'avez pas miser assez, nouvelle mise : "))
-            mise[joueur_actuel] += a_miser
-            mise_verif[joueur_actuel] += a_miser
-            mise_minimale = mise_verif[joueur_actuel]
+            partie.mises[joueur_actuel] += a_miser
+            partie.mise_verif[joueur_actuel] += a_miser
+            mise_minimale = partie.mise_verif[joueur_actuel]
         else:
             present.discard(joueur_actuel)
-    joueur_actuel, numero_joueur_actuel = def_joueur_actuel(nombre_de_joueurs, dealer, joueur_actuel, numero_joueur_actuel, present)
-    print(mise)
+    joueur_actuel, numero_joueur_actuel = def_joueur_actuel(partie, graphique, joueur_actuel, numero_joueur_actuel, present)
+    print(partie.mises)
 
-    return(mise, mise_verif, mise_minimale, present, joueur_actuel, numero_joueur_actuel)
+    return partie, mise_minimale, present, joueur_actuel, numero_joueur_actuel
 
 
-def tour_de_jeu(graphique, nombre_de_joueurs, mise, argent, mise_verif, dealer, cartes_du_milieu):
+def tour_de_jeu(partie, graphique):
     étape_du_tour = "flop" #puis "turn" et "river"
     control_flop = True
     control_turn = True
     control_river = True
 
-    present = joueur_present(nombre_de_joueurs)
-    petite_blinde, grosse_blinde, numero_petite_blinde, numero_grosse_blinde, mise_minimale = attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, argent)
+    present = joueur_present(partie.nombre_de_joueurs)
+    petite_blinde, grosse_blinde, numero_petite_blinde, numero_grosse_blinde, mise_minimale = attribution_petite_blinde_grosse_blinde(partie.nombre_de_joueurs, partie.dealer, partie.mises, partie.argent)
 
     while True:
         if graphique.mode_graphique:
@@ -276,77 +274,77 @@ def tour_de_jeu(graphique, nombre_de_joueurs, mise, argent, mise_verif, dealer, 
                 if control_flop:
                     print('\n\tDébut du tour de flop :')
 
-                    joueur_actuel, numero_joueur_actuel = premier_joueur(nombre_de_joueurs, dealer, mod = 'flop')
+                    joueur_actuel, numero_joueur_actuel = premier_joueur(partie.nombre_de_joueurs, partie.dealer, mod = 'flop')
 
-                    print(f"\nLes cartes du milieu sont : {cartes_du_milieu[0:3]}\n")
+                    print(f"\nLes cartes du milieu sont : {partie.cartes_du_milieu[0:3]}\n")
 
                     # Condition de victoire, s'il ne reste plus qu'un joueur non-couché
-                    for i in range(nombre_de_joueurs):
+                    for i in range(partie.nombre_de_joueurs):
                         graphique.vérification_quitter_window(event.type)
                         if graphique.mode_graphique:
                             pygame.display.update()
                         if len(present) == 1:
-                            return present, mise
-                        mise, mise_verif, mise_minimale, present, joueur_actuel, numero_joueur_actuel = action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent, nombre_de_joueurs, dealer, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'flop')
-                        if not avancee_tour(present, mise_verif):
+                            return partie, present
+                        partie, mise_minimale, present, joueur_actuel, numero_joueur_actuel = action_a_faire(partie, graphique, joueur_actuel, mise_minimale, present, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'flop')
+                        if not avancee_tour(present, partie.mise_verif):
                             étape_du_tour = "turn"
 
                     control_flop = False
 
                 if étape_du_tour == "flop":
-                    mise, mise_verif, mise_minimale, present, joueur_actuel, numero_joueur_actuel = action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent, nombre_de_joueurs, dealer, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'flop')
-                    if not avancee_tour(present, mise_verif):
+                    partie, mise_minimale, present, joueur_actuel, numero_joueur_actuel = action_a_faire(partie, graphique, joueur_actuel, mise_minimale, present, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'flop')
+                    if not avancee_tour(present, partie.mise_verif):
                         étape_du_tour = "turn"
             elif étape_du_tour == "turn":
                 if control_turn:
                     print('\n\tDébut du tour de turn :')
 
-                    print(f"\nLes cartes du milieu sont : {cartes_du_milieu[0:4]}\n")
+                    print(f"\nLes cartes du milieu sont : {partie.cartes_du_milieu[0:4]}\n")
 
-                    joueur_actuel, numero_joueur_actuel = premier_joueur(nombre_de_joueurs, dealer, mod = 'turn')
+                    joueur_actuel, numero_joueur_actuel = premier_joueur(partie.nombre_de_joueurs, partie.dealer, mod = 'turn')
 
-                    for i in range(nombre_de_joueurs):
+                    for i in range(partie.nombre_de_joueurs):
                         graphique.vérification_quitter_window(event.type)
                         if graphique.mode_graphique:
                             pygame.display.update()
                         if len(present) == 1:
-                            return present, mise
-                        mise, mise_verif, mise_minimale, present, joueur_actuel, numero_joueur_actuel = action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent, nombre_de_joueurs, dealer, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'turn/river')
-                        if not avancee_tour(present, mise_verif):
+                            return partie, present
+                        partie, mise_minimale, present, joueur_actuel, numero_joueur_actuel = action_a_faire(partie, graphique, joueur_actuel, mise_minimale, present, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'turn/river')
+                        if not avancee_tour(present, partie.mise_verif):
                             étape_du_tour = "river"
 
                     control_turn = False
 
                 if étape_du_tour == "turn":
-                    mise, mise_verif, mise_minimale, present, joueur_actuel, numero_joueur_actuel = action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent, nombre_de_joueurs, dealer, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'turn/river')
-                    if not avancee_tour(present, mise_verif):
+                    partie, mise_minimale, present, joueur_actuel, numero_joueur_actuel = action_a_faire(partie, graphique, joueur_actuel, mise_minimale, present, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'turn/river')
+                    if not avancee_tour(present, partie.mise_verif):
                         étape_du_tour = "river"
             elif étape_du_tour == "river": # au moment du river
                 if control_river:
                     print('\n\tDébut du tour de river :')
 
-                    print(f"\nLes cartes du milieu sont : {cartes_du_milieu[0:5]}\n")
+                    print(f"\nLes cartes du milieu sont : {partie.cartes_du_milieu[0:5]}\n")
 
-                    joueur_actuel, numero_joueur_actuel = premier_joueur(nombre_de_joueurs, dealer, mod = 'river')
+                    joueur_actuel, numero_joueur_actuel = premier_joueur(partie.nombre_de_joueurs, partie.dealer, mod = 'river')
 
-                    for i in range(nombre_de_joueurs):
+                    for i in range(partie.nombre_de_joueurs):
                         graphique.vérification_quitter_window(event.type)
                         if graphique.mode_graphique:
                             pygame.display.update()
                         if len(present) == 1:
-                            return present, mise
-                        mise, mise_verif, mise_minimale, present, joueur_actuel, numero_joueur_actuel = action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent, nombre_de_joueurs, dealer, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'turn/river')
-                        if not avancee_tour(present, mise_verif):
+                            return partie, present
+                        partie, mise_minimale, present, joueur_actuel, numero_joueur_actuel = action_a_faire(partie, graphique, joueur_actuel, mise_minimale, present, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'turn/river')
+                        if not avancee_tour(present, partie.mise_verif):
                             étape_du_tour = "fin"
                     control_river = False
 
                 if étape_du_tour == "river":
-                    mise, mise_verif, mise_minimale, present, joueur_actuel, numero_joueur_actuel = action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent, nombre_de_joueurs, dealer, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'turn/river')
-                    if not avancee_tour(present, mise_verif):
+                    partie, mise_minimale, present, joueur_actuel, numero_joueur_actuel = action_a_faire(partie, graphique, joueur_actuel, mise_minimale, present, numero_joueur_actuel, numero_petite_blinde, numero_grosse_blinde, petite_blinde, grosse_blinde, mod = 'turn/river')
+                    if not avancee_tour(present, partie.mise_verif):
                         étape_du_tour = "fin"
 
             if étape_du_tour == "fin":
-                return present, mise
+                return partie, present
 
             graphique.vérification_quitter_window(event.type)
             if graphique.mode_graphique:

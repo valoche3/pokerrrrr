@@ -20,22 +20,21 @@ def main():
             partie = Partie()
             graphique = Graphique(mode_graphique)
 
-            dealer = None
             partie_en_cours = True
 
             while partie_en_cours:
                 # Commence un nouvel partie de jeu
                 partie.remise_à_zéro()
 
-                if dealer == None :
-                    dealer = détermination_premier_dealer(partie.nombre_de_joueurs)
+                if partie.dealer == None :
+                    partie.dealer = détermination_premier_dealer(partie.nombre_de_joueurs)
                 else:
-                    dealer = détermination_dealer(dealer)
+                    partie.dealer = détermination_dealer(partie.dealer)
 
                 print(f"\nLes mains des joueurs sont : {partie.mains}")
                 graphique.affichage_des_cartes_joueurs(partie.mains, partie.argent)
 
-                present, partie.mises = tour_de_jeu(graphique, partie.nombre_de_joueurs, partie.mises, partie.argent, partie.mise_verif, dealer, partie.cartes_du_milieu)
+                partie, present = tour_de_jeu(partie, graphique)
                 joueurs_gagnants = détermination_du_vainqueur(present, partie.cartes_du_milieu, partie.mains)
                 partie.argent = mise_a_niveau_argent(joueurs_gagnants, partie.argent, partie.mises)
 

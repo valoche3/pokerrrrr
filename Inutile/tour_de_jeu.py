@@ -167,7 +167,6 @@ def avancee_tour(mise, present):
 
 
 def actions_possibles(joueur_actuel, present, mise_minimale):
-
         if joueur_actuel in present:
 
             print('Voici les actions que tu peux faire :')
@@ -175,8 +174,8 @@ def actions_possibles(joueur_actuel, present, mise_minimale):
                 print("s'aligner")
                 print("miser jusqu'à", str(argent[joueur_actuel]))
             print('se coucher')
-            
- 
+
+
 def action_a_faire(joueur_actuel, mise, mise_verif, mise_minimale, present, argent):
 
     a = input('Que veux-tu faire ? :')#fuck

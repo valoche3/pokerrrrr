@@ -1,4 +1,4 @@
-from src.miseEnPlace import distribution_des_cartes_joueurs 
+from src.miseEnPlace import distribution_des_cartes_joueurs
 
 def mise_a_niveau_argent(joueurs_gagnants, dico_argent, dict_mises):
     argent_au_milieu = 0

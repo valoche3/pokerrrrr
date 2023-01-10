@@ -64,8 +64,18 @@ class Graphique:
             return
 
         for i in range (0, len(mains_des_joueurs)):
-            self.affichage_image("utile/", "red.png", self.placement_joueurs[i][0],  self.placement_joueurs[i][1] )
+            self.affichage_image("utile/", "red.png", self.placement_joueurs[i][0],  self.placement_joueurs[i][1])
             self.afficher_texte_bouttons(self.tapis, f" {argents_des_joueurs['j'+ str(i)]}", (self.placement_joueurs[i][0], self.placement_joueurs[i][1] - 30), (0, 0, 0, 0))
+
+
+    def retourner_cartes(self, mains_des_joueurs):
+        if not self.mode_graphique:
+            return
+
+        for i in range (0, len(mains_des_joueurs)):
+            print("============>", mains_des_joueurs[i])
+            # self.affichage_image("utile/", f".png", self.placement_joueurs[i][0],  self.placement_joueurs[i][1])
+
 
     def vérification_quitter_window(self, event):
         if not self.mode_graphique:

@@ -58,6 +58,7 @@ class Partie:
         self.mises = self.mises = initialisation_de_dictionnaire(self.nombre_de_joueurs, 0)
         self.cartes_du_milieu, self.paquet_de_jeu = distribution_cartes_du_milieu(self.paquet_de_jeu)
         self.mise_verif = initialisation_de_dictionnaire(self.nombre_de_joueurs, 0)
+        self.dealer = None
 
 
     def remise_à_zéro(self):
