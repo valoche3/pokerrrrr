@@ -33,9 +33,10 @@ def main():
                     dealer = détermination_dealer(dealer)
 
                 print(f"\nLes mains des joueurs sont : {partie.mains}")
-                graphique.affichage_des_cartes_joueurs(partie.mains, partie.argent)
+                graphique.affichage_des_cartes_joueurs_face_cachée(partie.mains, partie.argent)
 
-                present, partie.mises = tour_de_jeu(graphique, partie.nombre_de_joueurs, partie.mises, partie.argent, partie.mise_verif, dealer, partie.cartes_du_milieu)
+
+                present, partie.mises = tour_de_jeu(graphique, partie.nombre_de_joueurs, partie.mises, partie.argent, partie.mise_verif, dealer, partie.cartes_du_milieu, partie.mains)
                 joueurs_gagnants = détermination_du_vainqueur(present, partie.cartes_du_milieu, partie.mains)
                 partie.argent = mise_a_niveau_argent(joueurs_gagnants, partie.argent, partie.mises)
 
@@ -51,3 +52,4 @@ def main():
 
 if __name__ == "__main__" :
     main()
+    
