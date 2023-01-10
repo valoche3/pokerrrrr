@@ -12,7 +12,7 @@ def main():
     choix_du_programe_status = True
 
     while choix_du_programe_status:
-        choix_du_programe = input("Voulez-vous lancer le jeu avec l'interface graphique ? (Y/N) ")
+        choix_du_programe = input("\nVoulez-vous lancer le jeu avec l'interface graphique ? (Y/N) ")
         if choix_du_programe.upper() == "Y" or choix_du_programe.upper() == "N":
             choix_du_programe_status = False
             mode_graphique = choix_du_programe == "Y"
@@ -32,7 +32,7 @@ def main():
                 else:
                     dealer = détermination_dealer(dealer)
 
-                print(f"Les mains des joueurs sont : {partie.mains}")
+                print(f"\nLes mains des joueurs sont : {partie.mains}")
                 graphique.affichage_des_cartes_joueurs(partie.mains, partie.argent)
 
                 present, partie.mises = tour_de_jeu(graphique, partie.nombre_de_joueurs, partie.mises, partie.argent, partie.mise_verif, dealer, partie.cartes_du_milieu)
@@ -41,9 +41,9 @@ def main():
 
                 print(partie.argent)
 
-                partie_en_cours = True if input("Voulez vous continuer : oui ou non") == 'oui' else False
+                partie_en_cours = True if input("\nVoulez vous continuer (OUI ou NON) : ").upper == 'OUI' else False
 
-            print(f"Le joueur gagnant est : {gagnants_finaux(partie.argent)}")
+            print(f"\nLe joueur gagnant est : {gagnants_finaux(partie.argent)}")
 
             return
         choix_du_programe = ""
