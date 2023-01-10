@@ -1,15 +1,15 @@
- def détermination_premier_dealer(nombre_de_joueurs):
+def détermination_premier_dealer(nombre_de_joueurs):
 
     dealer = randint(0, nombre_de_joueurs-1)
     print('le dealer est le joueur numéro : ', dealer)
 
     return(dealer)
-    
+
 def détermination_dealer(nombre_de_joueurs, dealer):
-    
+
     dealer += 1
     print('Le nouveau dealer est le joueur numéro :', dealer)
-    
+
     return(dealer)
 
 def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, argent):
@@ -23,13 +23,13 @@ def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, arg
                 petite_blinde = int(input('petite blinde : ')) #fuck
             mise['j' + str(dealer+1)] = petite_blinde
             numero_petite_blinde = dealer + 1
-        
+
             grosse_blinde = 2*petite_blinde
             a = False
             i = 0
             while a == False:
                 if argent['j'+str(dealer+2+i)] > grosse_blinde:
-                    a = True 
+                    a = True
                     mise['j'+str(dealer+2+i)] = grosse_blinde
                 else:
                     i += 1
@@ -42,13 +42,13 @@ def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, arg
                 petite_blinde = int(input('petite blinde : '))
             mise['j' + str(dealer+1)] = petite_blinde
             numero_petite_blinde = dealer + 1
-            
+
             grosse_blinde = 2 * petite_blinde
             a = False
             i = 0
             while a == False:
                 if argent['j'+str(i)] > grosse_blinde:
-                    a = True 
+                    a = True
                     mise['j'+str(i)] = grosse_blinde
                 else:
                     i += 1
@@ -67,10 +67,10 @@ def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, arg
             i = 0
             while a == False:
                 if argent['j'+str(i+1)] > grosse_blinde:
-                    a = True 
+                    a = True
                     mise['j'+str(i+1)] = grosse_blinde
                 else:
-                    i += 1 
+                    i += 1
             numero_grosse_blinde = i + 1
 
     else:
@@ -80,12 +80,12 @@ def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, arg
             while petite_blinde > argent['j0'] and grosse_blinde > argent['j1']:
                 petite_blinde = int(input('petite blinde : '))#fuck
                 grosse_blinde = 2 * petite_blinde
-            mise['j0'] = petite_blinde 
+            mise['j0'] = petite_blinde
             mise['j1'] = grosse_blinde
             numero_petite_blinde = 0
             numero_grosse_blinde = 1
 
-        else: 
+        else:
             petite_blinde = int(input('petite blinde : '))
             grosse_blinde = 2 * petite_blinde
             while petite_blinde > argent['j1'] and grosse_blinde > argent['j0']:
