@@ -4,15 +4,16 @@ import pygame
 import sys
 import os
 
+#mise_verif = dictionnaire qui renseigne la mise de chaqeu joueur sans prendre en compte la petite blinde et la grosse blinde
 
-def détermination_premier_dealer(nombre_de_joueurs):
+def détermination_premier_dealer(nombre_de_joueurs): #pour la première sous-partie
     dealer = randint(0, nombre_de_joueurs - 1)
     print('\nLe dealer est le joueur numéro : ', dealer)
 
     return dealer
 
 
-def détermination_dealer(dealer):
+def détermination_dealer(dealer): #pour toutes les sous-parties sauf la première
     dealer += 1
     print('\nLe nouveau dealer est le joueur numéro :', dealer, '\n', 'Le joueur qui paye la petite blinde est le joueur suivant le dealer.')
 
@@ -23,7 +24,7 @@ def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, arg
 
     if nombre_de_joueurs > 2:
 
-        if dealer <= nombre_de_joueurs - 3:
+        if dealer <= nombre_de_joueurs - 3: #si on n'a pas besoin de revenir à j0
 
             petite_blinde = int(input('Petite blinde : '))
             while petite_blinde > argent['j'+str(dealer+1)]:
@@ -42,7 +43,7 @@ def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, arg
                     i += 1
             numero_grosse_blinde = dealer + 2 + i
 
-        elif dealer == nombre_de_joueurs - 2:
+        elif dealer == nombre_de_joueurs - 2: #si j0 paie la grosse blinde
 
             petite_blinde = int(input('Petite blinde : '))
             while petite_blinde > argent['j'+str(dealer+1)]:
@@ -61,7 +62,7 @@ def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, arg
                     i += 1
             numero_grosse_blinde = i
 
-        else:
+        else: #si j0 paie la petite blinde et j1 la grosse blinde
             petite_blinde = int(input('Petite blinde : '))
             while petite_blinde > argent['j0']:
                 petite_blinde = int(input('Petite blinde : '))
@@ -79,7 +80,7 @@ def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, arg
                     i += 1
             numero_grosse_blinde = i + 1
 
-    else:
+    else: #si le nombre de joueurs est égal à 2
         if dealer == 0:
             petite_blinde = int(input('Petite blinde : '))
             grosse_blinde = 2 * petite_blinde
@@ -102,12 +103,10 @@ def attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, arg
             numero_petite_blinde = 1
             numero_grosse_blinde = 0
 
-    mise_minimale = petite_blinde
-
     return petite_blinde, grosse_blinde, numero_petite_blinde, numero_grosse_blinde, mise_minimale
 
 
-def joueur_present(nombre_de_joueurs):
+def joueur_present(nombre_de_joueurs): #créer un set avec tous les joueurs en jeu et qui les enlève quand ils se couchent
     present = {'j'+str(i) for i in range(nombre_de_joueurs)}
 
     return present
@@ -116,14 +115,14 @@ def joueur_present(nombre_de_joueurs):
 def premier_joueur(nombre_de_joueurs, dealer, mod = 'flop'):
 
     if nombre_de_joueurs > 2:
-        if mod == 'flop':
+        if mod == 'flop': #pour flop, c'est le troisième joueur après le dealer qui joue en premier
             if ((nombre_de_joueurs - 1) - (dealer)) < 3:
                 joueur_actuel = 'j' + str((dealer + 3) % nombre_de_joueurs)
                 numero_joueur_actuel = (dealer + 3) % nombre_de_joueurs
             else:
                 joueur_actuel = 'j' + str(dealer + 3)
                 numero_joueur_actuel = dealer + 3
-        else:
+        else: #pour turn et river, c'est le joueur juste après le dealer qui joue en premier
             if dealer != nombre_de_joueurs - 1:
                 joueur_actuel = 'j' + str(dealer + 1)
                 numero_joueur_actuel = dealer + 1
@@ -131,7 +130,7 @@ def premier_joueur(nombre_de_joueurs, dealer, mod = 'flop'):
             else:
                 joueur_actuel = 'j0'
                 numero_joueur_actuel = 0
-    else:
+    else: #si le nombre de joueurs est égal à 2
         if dealer == 0:
             joueur_actuel = 'j1'
             numero_joueur_actuel = 1
@@ -144,15 +143,15 @@ def premier_joueur(nombre_de_joueurs, dealer, mod = 'flop'):
     return joueur_actuel, numero_joueur_actuel
 
 
-def def_joueur_actuel(partie, graphique, joueur_actuel, numero_joueur_actuel, present):
+def def_joueur_actuel(partie, graphique, joueur_actuel, numero_joueur_actuel, present): #pour passer au joueur suivant pendant la partie
 
-    if joueur_actuel == 'j' + str(partie.nombre_de_joueurs - 1):
+    if joueur_actuel == 'j' + str(partie.nombre_de_joueurs - 1): #si on est au dernier joueur de la boucle
         joueur_actuel = 'j0'
         numero_joueur_actuel = 0
     else:
         joueur_actuel = 'j' + str(numero_joueur_actuel + 1)
         numero_joueur_actuel = numero_joueur_actuel + 1
-    if joueur_actuel in present :
+    if joueur_actuel in present : #si le joueur n'est pas couché
         print("\tC'est à", joueur_actuel, "de jouer")
         graphique.retourner_cartes(partie.mains)
 
@@ -160,7 +159,8 @@ def def_joueur_actuel(partie, graphique, joueur_actuel, numero_joueur_actuel, pr
 
 
 def def_mise_minimale(mise_verif, grosse_blinde, mod = 'flop'):
-
+    
+    #pour vérifier si on n'est pas au début de "flop", "turn" ou "river"
     a = False
     for k in mise_verif:
         if mise_verif[k] == 0:
@@ -171,7 +171,7 @@ def def_mise_minimale(mise_verif, grosse_blinde, mod = 'flop'):
         mise_minimale = grosse_blinde
     elif a == True and mod == 'turn/river':
         mise_minimale = 0
-    elif a == False:
+    elif a == False: #la mise minimale est la mise maximum déjà misée
         maxi = None
         for k in mise_verif:
             if maxi == None or mise_verif[k] > maxi:
@@ -181,7 +181,7 @@ def def_mise_minimale(mise_verif, grosse_blinde, mod = 'flop'):
     return mise_minimale
 
 
-def avancee_tour(present, mise_verif):
+def avancee_tour(present, mise_verif): #vérifier que tous les joueurs ne sont pas couchés et vérifier que ceux qui ne sont pas couchés sont tous à la même mise, sinon le tour continue
     if len(present) > 1 :
         maxi = None
         for k in mise_verif:
@@ -229,7 +229,7 @@ def action_a_faire(partie, graphique, joueur_actuel, mise_minimale, present, num
                 else:
                     partie.mises[joueur_actuel] = def_mise_minimale(partie.mise_verif, grosse_blinde, mod = 'flop')
                 partie.mise_verif[joueur_actuel] = def_mise_minimale(partie.mise_verif, grosse_blinde, mod = 'flop')
-            else:
+            else: #dans le cas de "turn" ou "river" (pas la même mise minimale)
                 if numero_joueur_actuel == numero_petite_blinde:
                     partie.mises[joueur_actuel] = def_mise_minimale(partie.mise_verif, grosse_blinde, mod = 'turn/river') + petite_blinde
                 elif numero_joueur_actuel == numero_grosse_blinde:
@@ -245,7 +245,7 @@ def action_a_faire(partie, graphique, joueur_actuel, mise_minimale, present, num
             partie.mises[joueur_actuel] += a_miser
             partie.mise_verif[joueur_actuel] += a_miser
             mise_minimale = partie.mise_verif[joueur_actuel]
-        else:
+        else: #se coucher
             present.discard(joueur_actuel)
     joueur_actuel, numero_joueur_actuel = def_joueur_actuel(partie, graphique, joueur_actuel, numero_joueur_actuel, present)
     print(partie.mises)
@@ -253,7 +253,7 @@ def action_a_faire(partie, graphique, joueur_actuel, mise_minimale, present, num
     return partie, mise_minimale, present, joueur_actuel, numero_joueur_actuel
 
 
-def tour_de_jeu(partie, graphique):
+def tour_de_jeu(partie, graphique): #une sous-partie de jeu qui appelle toutes les fonctions dans l'ordre
     étape_du_tour = "flop" #puis "turn" et "river"
     control_flop = True
     control_turn = True
