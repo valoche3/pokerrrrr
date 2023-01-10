@@ -40,8 +40,11 @@ def main():
                 partie.argent = mise_a_niveau_argent(joueurs_gagnants, partie.argent, partie.mises)
 
                 print(partie.argent)
-
-                partie_en_cours = True if input("\nVoulez vous continuer (OUI ou NON) : ").upper == 'OUI' else False
+                if input("\nVoulez vous continuer (OUI ou NON) : ").upper() == 'OUI':
+                    partie_en_cours = True  
+                else :
+                    partie_en_cours = False
+                print(partie_en_cours)
 
             print(f"\nLe joueur gagnant est : {gagnants_finaux(partie.argent)}")
 

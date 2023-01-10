@@ -278,6 +278,9 @@ def tour_de_jeu(graphique, nombre_de_joueurs, mise, argent, mise_verif, dealer, 
 
                     joueur_actuel, numero_joueur_actuel = premier_joueur(nombre_de_joueurs, dealer, mod = 'flop')
 
+                    #for i in range(0, 3):
+                        #graphique.affichage_image('utile/carreaux/', f'{cartes_du_milieu}.png', graphique.width/2, graphique.height/2 ) 
+
                     print(f"\nLes cartes du milieu sont : {cartes_du_milieu[0:3]}\n")
 
                     # Condition de victoire, s'il ne reste plus qu'un joueur non-couché
