@@ -1,9 +1,12 @@
 # pokerrrrr
 
+Ravayrol Mélie
+Sterlin Valentine
+Vignault Aurélie
+
 
 Installation Pygame
 ------------
-::
 
    pip3 install pygame
 
