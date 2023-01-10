@@ -45,6 +45,7 @@ Mode d'emploi du poker :
   - graphique.py
   - miseEnplace.py
   - tourdejeu.py
+- importer le dossier utile qui contient les images
 - lancer le fichier 'poker.py'
 - choisir si l'on souhaite une version avec interface graphique ou non (Y ou N)
 - entrer le nombre de joueurs
