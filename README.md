@@ -39,7 +39,7 @@ Mode d'emploi du poker :
 
 - aller dans la branche ***Main_Final***
 - ouvrir le fichier 'poker.py'
-- importer les fichiers suivants qui continennent les fonctions appelées dans poker.py
+- importer les fichiers suivants,se trouvant dans ***src*** qui continennent les fonctions appelées dans poker.py
   - combinaisongagnante.py
   - fin_de_petite_partie.py
   - graphique.py
