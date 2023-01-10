@@ -40,7 +40,7 @@ def main():
 
                 print(partie.argent)
 
-                partie_en_cours = True if input("\nVoulez vous continuer (OUI ou NON) : ").upper == 'OUI' else False
+                partie_en_cours = True if input("\nVoulez vous continuer (OUI ou NON) : ").upper() == 'OUI' else False
 
             print(f"\nLe joueur gagnant est : {gagnants_finaux(partie.argent)}")
 
