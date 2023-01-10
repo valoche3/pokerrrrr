@@ -14,9 +14,6 @@ def gagnants_finaux(dico_argent):
     maxi = max(dico_argent)
     gagnants = []
     for joueur in dico_argent :
-        if dico_argent[joueur] == maxi :
+        if dico_argent[joueur] == dico_argent[maxi] :
             gagnants.append(joueur)
     return gagnants
-
-
-
