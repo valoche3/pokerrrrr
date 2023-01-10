@@ -1,0 +1,6 @@
+mode d'emploi du poker : 
+- ouvrir le fichier 'poker.py'
+-importer les fichiers suivants qui continennent les fonctions appelées dans poker.py :
+  
+- lancer le fichier 'poker.py'
+- choisir si l'on souhaite une version 
