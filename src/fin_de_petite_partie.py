@@ -11,9 +11,12 @@ def mise_a_niveau_argent(joueurs_gagnants, dico_argent, dict_mises):
     return dico_argent
 
 def gagnants_finaux(dico_argent):
-    maxi = max(dico_argent)
+   maxi = 0
+    for j in dico_argent:
+        if dico_argent[j] > maxi:
+            maxi =dico_argent[j]
     gagnants = []
     for joueur in dico_argent :
-        if dico_argent[joueur] == dico_argent[maxi] :
+        if dico_argent[joueur] == maxi :
             gagnants.append(joueur)
     return gagnants
