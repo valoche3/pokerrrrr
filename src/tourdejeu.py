@@ -273,7 +273,6 @@ def tour_de_jeu(graphique, nombre_de_joueurs, mise, argent, mise_verif, dealer, 
 
     present = joueur_present(nombre_de_joueurs)
     petite_blinde, grosse_blinde, numero_petite_blinde, numero_grosse_blinde, mise_minimale = attribution_petite_blinde_grosse_blinde(nombre_de_joueurs, dealer, mise, argent)
-    valeur_test=0
     
 
     while True:
